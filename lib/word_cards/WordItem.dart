@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'WordCard.dart';
-import 'detail_page.dart';
 
 class ListItem extends StatelessWidget {
   final WordCard wordCard;
@@ -35,6 +33,7 @@ class ListItem extends StatelessWidget {
                     child: Text(
                       wordCard.title,
                       style: TextStyle(
+                        fontSize: 40,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
