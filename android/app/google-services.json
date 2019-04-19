@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "353003274837",
+    "firebase_url": "https://hush-talk.firebaseio.com",
+    "project_id": "hush-talk",
+    "storage_bucket": "hush-talk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353003274837:android:43afb3ec8bcdae75",
+        "android_client_info": {
+          "package_name": "com.bomfim.hush_talk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "353003274837-qstcog35ujd92n0als97df73tm6vnr72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo_wxYCdxfKkTX2ffEmbiGn470drbEIrs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "353003274837-qstcog35ujd92n0als97df73tm6vnr72.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:353003274837:android:f14292e0be0a0062",
+        "android_client_info": {
+          "package_name": "com.example.mlkitdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "353003274837-qstcog35ujd92n0als97df73tm6vnr72.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo_wxYCdxfKkTX2ffEmbiGn470drbEIrs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "353003274837-qstcog35ujd92n0als97df73tm6vnr72.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
