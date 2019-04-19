@@ -7,30 +7,22 @@ import 'dart:ui' as ui;
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hush_talk/word_cards/ListCards.dart';
 
 class FaceDetectorPainter extends CustomPainter {
-  FaceDetectorPainter(this.imageSize, this.faces);
+  FaceDetectorPainter(this.imageSize, this.faces, this.context);
 
+  var olhoEsquerdoFechado = false;
+  var olhoDireitoFechado = false;
   final Size imageSize;
   final List<Face> faces;
+  final BuildContext context;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.0
-      ..color = Colors.red;
-
     for (Face face in faces) {
 
-      canvas.drawRect(
-        _scaleRect(
-          rect: face.boundingBox,
-          imageSize: imageSize,
-          widgetSize: size,
-        ),
-        paint,
-      );
+//      _drawRectFace(canvas, face, size, paint);
 
       final ui.ParagraphBuilder builder = ui.ParagraphBuilder(
         ui.ParagraphStyle(
@@ -40,15 +32,21 @@ class FaceDetectorPainter extends CustomPainter {
       );
       var labels = [];
 
+      var olhoEsquerdoFechado = false;
+      var olhoDireitoFechado = false;
       if (face.leftEyeOpenProbability != null && face.leftEyeOpenProbability <= 0.5) {
         labels.add("Olho esquerdo fechado");
+        olhoEsquerdoFechado = true;
       } else  {
         labels.add("Olho esquerdo aberto");
+        olhoEsquerdoFechado = false;
       }
       if (face.rightEyeOpenProbability != null && face.rightEyeOpenProbability <= 0.5) {
         labels.add("Olho direito fechado");
+        olhoDireitoFechado = true;
       } else {
         labels.add("Olho direito aberto");
+        olhoDireitoFechado = false;
       }
 
       builder.pushStyle(ui.TextStyle(color: Colors.green));
@@ -65,6 +63,22 @@ class FaceDetectorPainter extends CustomPainter {
         const Offset(0.0, 0.0),
       );
     }
+  }
+
+  void _drawRectFace(ui.Canvas canvas, Face face, ui.Size size) {
+    final Paint paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0
+      ..color = Colors.red;
+
+     canvas.drawRect(
+      _scaleRect(
+        rect: face.boundingBox,
+        imageSize: imageSize,
+        widgetSize: size,
+      ),
+      paint,
+    );
   }
 
   @override
