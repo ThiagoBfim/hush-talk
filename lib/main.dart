@@ -7,7 +7,9 @@ import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'detector_face.dart';
+import 'package:hush_talk/ml_widget/detector_face.dart';
+import 'package:hush_talk/word_cards/ListItem.dart';
+import 'package:hush_talk/word_cards/WordCard.dart';
 import 'utils.dart';
 
 void main() => runApp(MaterialApp(home: MyHomePage()));
@@ -22,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
   CameraController _camera;
 
   bool _isDetecting = false;
-  CameraLensDirection _direction = CameraLensDirection.back;
+  CameraLensDirection _direction = CameraLensDirection.front;
 
   @override
   void initState() {
@@ -50,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _isDetecting = true;
 
       detect(image, _getDetectionMethod(), rotation).then(
-        (dynamic result) {
+            (dynamic result) {
           setState(() {
             _scanResults = result;
           });
@@ -58,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _isDetecting = false;
         },
       ).catchError(
-        (_) {
+            (_) {
           _isDetecting = false;
         },
       );
@@ -72,6 +74,27 @@ class _MyHomePageState extends State<MyHomePage> {
         .processImage;
   }
 
+  void getFaceDetected(){
+    if (_scanResults == null ||
+        _camera == null ||
+        !_camera.value.isInitialized) {
+      return null;
+    }
+
+    if (_scanResults is! List<Face>) {
+      return null;
+    }
+    List<Face> faces = _scanResults;
+    if(faces.length > 0) {
+      Face face = faces[0];
+      if (face.leftEyeOpenProbability != null && face.leftEyeOpenProbability <= 0.5) {
+        _moveUp();
+      }
+      if (face.rightEyeOpenProbability != null && face.rightEyeOpenProbability <= 0.5) {
+        _moveDown();
+      }
+    }
+  }
   Widget _buildResults() {
     const Text noResultsText = const Text('No results!');
 
@@ -89,41 +112,46 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     if (_scanResults is! List<Face>) return noResultsText;
-    painter = FaceDetectorPainter(imageSize, _scanResults);
-
+    painter = FaceDetectorPainter(imageSize, _scanResults, context);
     return CustomPaint(
       painter: painter,
     );
   }
 
   Widget _buildImage() {
+
     return Container(
       constraints: const BoxConstraints.expand(),
       child: _camera == null
           ? const Center(
-              child: Text(
-                'Initializing Camera...',
-                style: TextStyle(
-                  color: Colors.green,
-                  fontSize: 30.0,
-                ),
-              ),
-            )
+        child: Text(
+          'Initializing Camera...',
+          style: TextStyle(
+            color: Colors.green,
+            fontSize: 30.0,
+          ),
+        ),
+      )
           : Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                transformCameraPreview(),
-                _buildResults(),
-              ],
-            ),
+        fit: StackFit.expand,
+        children: <Widget>[
+//          ListCardsBuilder(),
+          buildListWords(context),
+//          transformListWords(), //IMAGE CAMERA VIEW.
+          _buildResults(),
+        ],
+      ),
     );
+
   }
 
-  Transform transformCameraPreview(){
-    final size = MediaQuery.of(context).size;
+  Transform transformCameraPreview() {
+    final size = MediaQuery
+        .of(context)
+        .size;
     final deviceRatio = size.width / size.height;
     return Transform.scale(
-      scale: _camera.value.aspectRatio / deviceRatio/2,
+      scale: _camera.value.aspectRatio / deviceRatio / 2,
       child: Center(
         child: AspectRatio(
           aspectRatio: _camera.value.aspectRatio,
@@ -132,22 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-  void _toggleCameraDirection() async {
-    if (_direction == CameraLensDirection.back) {
-      _direction = CameraLensDirection.front;
-    } else {
-      _direction = CameraLensDirection.back;
-    }
 
-    await _camera.stopImageStream();
-    await _camera.dispose();
-
-    setState(() {
-      _camera = null;
-    });
-
-    _initializeCamera();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,12 +171,65 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: _buildImage(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _toggleCameraDirection,
-        child: _direction == CameraLensDirection.back
-            ? const Icon(Icons.camera_front)
-            : const Icon(Icons.camera_rear),
-      ),
     );
+  }
+
+  ScrollController _controller  = ScrollController();
+  double itemSize = 100.0;
+
+  _moveUp() {
+    //_controller.jumpTo(_controller.offset - itemSize);
+    print('up');
+    _controller.animateTo(_controller.offset - itemSize,
+        curve: Curves.linear, duration: Duration(milliseconds: 500));
+  }
+
+  _moveDown() {
+    print('down');
+    //_controller.jumpTo(_controller.offset + itemSize);
+    _controller.animateTo(_controller.offset + itemSize,
+        curve: Curves.linear, duration: Duration(milliseconds: 500));
+  }
+
+  Widget buildListWords(BuildContext context) {
+    getFaceDetected();
+    double height = MediaQuery.of(context).size.height;
+    return Column(children: <Widget>[
+      Container(
+        height: height/4,
+        color: Colors.white,
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              RaisedButton(
+                child: Text("up"),
+                onPressed: _moveUp,
+              ),
+              RaisedButton(
+                child: Text("down"),
+                onPressed: _moveDown,
+              )
+            ],
+          ),
+        ),
+      ),
+      Expanded(
+        child: ListView.builder(
+          controller: _controller,
+          itemCount: wordCards.length,
+          scrollDirection: Axis.vertical,
+          itemExtent: itemSize,
+          itemBuilder: (context, index) {
+            final wordCard = wordCards[index];
+//            return ListTile(title: Text(wordCard.title));
+            return ListItem(
+              wordCard: wordCard,
+              height: height - height/4,
+            );
+          },
+        ),
+      )
+    ]);
   }
 }
