@@ -6,10 +6,8 @@ import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hush_talk/word_cards/ListWords.dart';
 
-import 'package:hush_talk/ml_widget/detector_face.dart';
-import 'package:hush_talk/word_cards/WordItem.dart';
-import 'package:hush_talk/word_cards/WordCard.dart';
 import 'utils.dart';
 
 void main() => runApp(MaterialApp(home: MyHomePage()));
@@ -22,13 +20,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   dynamic _scanResults;
   CameraController _camera;
-
+  ScrollController _controller;
   bool _isDetecting = false;
   CameraLensDirection _direction = CameraLensDirection.front;
 
   @override
   void initState() {
     super.initState();
+    _controller = ScrollController();
     _initializeCamera();
   }
 
@@ -56,7 +55,6 @@ class _MyHomePageState extends State<MyHomePage> {
           setState(() {
             _scanResults = result;
           });
-
           _isDetecting = false;
         },
       ).catchError(
@@ -74,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .processImage;
   }
 
-  void getFaceDetected() {
+  Face getFaceDetected() {
     if (_scanResults == null ||
         _camera == null ||
         !_camera.value.isInitialized) {
@@ -86,40 +84,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     List<Face> faces = _scanResults;
     if (faces.length > 0) {
-      Face face = faces[0];
-      if (face.leftEyeOpenProbability != null &&
-          face.leftEyeOpenProbability <= 0.5) {
-        _moveUp();
-      }
-      if (face.rightEyeOpenProbability != null &&
-          face.rightEyeOpenProbability <= 0.5) {
-        _moveDown();
-      }
+      print("TESTE22 -> face");
+      return faces[0];
     }
+    return null;
   }
 
-  Widget _buildResults() {
-    const Text noResultsText = const Text('No results!');
-
-    if (_scanResults == null ||
-        _camera == null ||
-        !_camera.value.isInitialized) {
-      return noResultsText;
-    }
-
-    CustomPainter painter;
-
-    final Size imageSize = Size(
-      _camera.value.previewSize.height,
-      _camera.value.previewSize.width,
-    );
-
-    if (_scanResults is! List<Face>) return noResultsText;
-    painter = FaceDetectorPainter(imageSize, _scanResults, context);
-    return CustomPaint(
-      painter: painter,
-    );
-  }
 
   Widget _buildImage() {
     return Container(
@@ -137,24 +107,10 @@ class _MyHomePageState extends State<MyHomePage> {
           : Stack(
               fit: StackFit.expand,
               children: <Widget>[
-                buildListWords(context),
-                _buildResults(),
+                ListWords(_scanResults, _camera, _controller),
+//                _buildResults(),
               ],
             ),
-    );
-  }
-
-  Transform transformCameraPreview() {
-    final size = MediaQuery.of(context).size;
-    final deviceRatio = size.width / size.height;
-    return Transform.scale(
-      scale: _camera.value.aspectRatio / deviceRatio / 2,
-      child: Center(
-        child: AspectRatio(
-          aspectRatio: _camera.value.aspectRatio,
-          child: CameraPreview(_camera),
-        ),
-      ),
     );
   }
 
@@ -169,61 +125,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  ScrollController _controller = ScrollController();
-  double itemSize = 300.0;
-
-  _moveUp() {
-    _controller.animateTo(_controller.offset - itemSize,
-        curve: Curves.linear, duration: Duration(milliseconds: 500));
-  }
-
-  _moveDown() {
-    _controller.animateTo(_controller.offset + itemSize,
-        curve: Curves.linear, duration: Duration(milliseconds: 500));
-  }
-
-  Widget buildListWords(BuildContext context) {
-    getFaceDetected();
-    double height = MediaQuery.of(context).size.height;
-    return Column(children: <Widget>[
-      Container(
-        height: height / 5,
-        color: Colors.white,
-        child: Center(
-          child: Align(
-            alignment: FractionalOffset.bottomCenter,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                RaisedButton(
-                  child: Text("up"),
-                  onPressed: _moveUp,
-                ),
-                RaisedButton(
-                  child: Text("down"),
-                  onPressed: _moveDown,
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-      Expanded(
-        child: ListView.builder(
-          controller: _controller,
-          itemCount: wordCards.length,
-          scrollDirection: Axis.vertical,
-          itemExtent: itemSize,
-          itemBuilder: (context, index) {
-            final wordCard = wordCards[index];
-//            return ListTile(title: Text(wordCard.title));
-            return ListItem(
-              wordCard: wordCard,
-              height: height - height / 5,
-            );
-          },
-        ),
-      )
-    ]);
-  }
 }

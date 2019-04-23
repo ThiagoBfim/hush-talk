@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'WordCard.dart';
 
-class ListItem extends StatelessWidget {
+class WordItem extends StatelessWidget {
   final WordCard wordCard;
   final height;
 
-  const ListItem({
+  const WordItem({
     Key key,
     @required this.wordCard,
     @required this.height,
