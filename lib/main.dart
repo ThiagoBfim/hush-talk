@@ -7,6 +7,7 @@ import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/word_cards/ListWords.dart';
+import 'package:hush_talk/word_cards/ScrollToTopBottomListView.dart';
 
 import 'utils.dart';
 
@@ -20,14 +21,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   dynamic _scanResults;
   CameraController _camera;
-  ScrollController _controller;
+  ScrollToTopBottomListView _controller;
   bool _isDetecting = false;
   CameraLensDirection _direction = CameraLensDirection.front;
 
   @override
   void initState() {
     super.initState();
-    _controller = ScrollController();
+    _controller = ScrollToTopBottomListView();
     _initializeCamera();
   }
 
