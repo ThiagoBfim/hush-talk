@@ -3,14 +3,15 @@ import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/ml_widget/EyeDetector.dart';
 
+import 'ScrollToTopBottomListView.dart';
 import 'WordCard.dart';
 import 'WordItem.dart';
 
 class ListWords extends StatelessWidget {
-  dynamic _scanResults;
-  CameraController _camera;
-  final ScrollController _controller;
-  double itemSize = 420.0;
+  final _scanResults;
+  final CameraController _camera;
+  final ScrollToTopBottomListView _controller;
+  final double itemSize = 420.0;
 
   ListWords(this._scanResults, this._camera, this._controller);
 
@@ -35,6 +36,7 @@ class ListWords extends StatelessWidget {
   Widget build(BuildContext context) {
     _selectionAction(EyeDector(getFaceDetected()));
     double height = MediaQuery.of(context).size.height;
+    _controller.moveDown(height);
     return Column(children: <Widget>[
       Container(
         height: 60,
@@ -63,7 +65,7 @@ class ListWords extends StatelessWidget {
 //            return ListTile(title: Text(wordCard.title));
             return WordItem(
               wordCard: wordCard,
-              height: height + 60,
+              height: height,
             );
           },
         ),
@@ -74,24 +76,14 @@ class ListWords extends StatelessWidget {
   _selectionAction(EyeDector eyeDector) {
     bool rightEyeClosed = eyeDector.getRightEyeClosed();
     bool leftEyeClosed = eyeDector.getLeftEyeClosed();
-    if(rightEyeClosed && leftEyeClosed){
-
+    if (rightEyeClosed && leftEyeClosed && !_controller.getStop()) {
+      _controller.stopAndScrollBack();
     } else if (rightEyeClosed) {
-      _moveDown();
+      _controller.incrementPiscadas();
     } else if (leftEyeClosed) {
-      _moveUp();
-    } else {
-    }
+      _controller.incrementPiscadas();
+
+    } else {}
   }
 
-  _moveUp() {
-    _controller.animateTo(_controller.offset - itemSize,
-        curve: Curves.linear, duration: Duration(milliseconds: 1000));
-  }
-
-  _moveDown() {
-    var locale = _controller.offset + itemSize;
-    _controller.animateTo(locale,
-        curve: Curves.linear, duration: Duration(milliseconds: 1000));
-  }
 }
