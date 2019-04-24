@@ -1,50 +1,74 @@
 import 'package:flutter/material.dart';
 
-class ScrollToTopBottomListView  extends ScrollController{
+class ScrollToTopBottomListView extends ScrollController {
 
-   bool _stop = false;
-   int _piscadas = 0;
+  static const int _SIZE_PISCADAS_TO_CHANGE_ACTION = 7;
+  static const int _PIXELS_BACK_WHEN_STOP = 20;
+  bool _stop = false;
+  int _piscadas = 0;
+  bool downScroll = true;
 
-    scrollToTop() {
-      this.animateTo(this.position.minScrollExtent,
-                duration: Duration(milliseconds: 1), curve: Curves.easeIn);
+  scrollToTop() {
+    this.animateTo(this.position.minScrollExtent,
+        duration: Duration(milliseconds: 1), curve: Curves.easeIn);
+  }
+
+  scrollToBottom() {
+    this.animateTo(this.position.maxScrollExtent,
+        duration: Duration(milliseconds: 1), curve: Curves.easeOut);
+  }
+
+  stopAndScrollBack() {
+    setStop(true);
+    if (downScroll) {
+      this.position.jumpTo(this.offset - _PIXELS_BACK_WHEN_STOP);
+    } else {
+      this.position.jumpTo(this.offset + _PIXELS_BACK_WHEN_STOP);
     }
+  }
 
-    stopAndScrollBack(){
-      setStop(true);
-      this.position.jumpTo(this.offset-1);
-    }
+  bool getStop() {
+    return _stop;
+  }
 
-    scrollToBottom() {
-      this.animateTo(this.position.maxScrollExtent,
-                duration: Duration(milliseconds: 1000), curve: Curves.easeOut);
-    }
+  setStop(bool stop) {
+    this._stop = stop;
+  }
 
-    bool getStop(){
-      return _stop;
+  incrementPiscadas(bool downScroll) {
+    _piscadas++;
+    if (_piscadas >= _SIZE_PISCADAS_TO_CHANGE_ACTION) {
+      setStop(false);
+      this.downScroll = downScroll;
+      _piscadas = 0;
     }
-    setStop(bool stop){
-      this._stop = stop;
-    }
+  }
 
-    incrementPiscadas(){
-      _piscadas ++;
-      if(_piscadas >= 3) {
-        setStop(false);
-        _piscadas = 0;
+  moveUp(double height) {
+    if (offset <= position.minScrollExtent) {
+      scrollToBottom();
+    } else {
+      animateTo(offset - height,
+          curve: Curves.linear, duration: Duration(milliseconds: 3500));
+    }
+  }
+
+  moveDown(double height) {
+    if (offset >= position.maxScrollExtent) {
+      scrollToTop();
+    } else {
+      animateTo(offset + height,
+          curve: Curves.linear, duration: Duration(milliseconds: 3500));
+    }
+  }
+
+  void move(double height) {
+    if (positions.isNotEmpty && !getStop()) {
+      if (downScroll) {
+        moveDown(height);
+      } else {
+        moveUp(height);
       }
     }
-
-   moveDown(double height) {
-     if (positions.isNotEmpty && !getStop()) {
-       var locale = offset + height;
-       if (offset >= position.maxScrollExtent) {
-         scrollToTop();
-       } else {
-         animateTo(locale,
-             curve: Curves.linear, duration: Duration(milliseconds: 3500));
-       }
-     }
-   }
-
+  }
 }
