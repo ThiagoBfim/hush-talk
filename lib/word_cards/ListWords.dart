@@ -85,7 +85,6 @@ class ListWords extends StatelessWidget {
           itemExtent: itemSize,
           itemBuilder: (context, index) {
             final wordCard = wordCards[index];
-//            return ListTile(title: Text(wordCard.title));
             return WordItem(
               wordCard: wordCard,
               height: height,
@@ -103,7 +102,6 @@ class ListWords extends StatelessWidget {
       _controller.incrementPiscadas(false);
     } else if (eyeDector.getLeftEyeClosed()) {
       _controller.incrementPiscadas(true);
-
     } else {}
   }
 
