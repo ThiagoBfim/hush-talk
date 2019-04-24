@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ScrollToTopBottomListView extends ScrollController {
-
   static const int _SIZE_PISCADAS_TO_CHANGE_ACTION = 7;
   static const int _PIXELS_BACK_WHEN_STOP = 20;
+  static const DURATION_SCROLL_MILLISECONDS = 3500;
   bool _stop = false;
   int _piscadas = 0;
   bool downScroll = true;
@@ -21,6 +21,7 @@ class ScrollToTopBottomListView extends ScrollController {
   stopAndScrollBack() {
     setStop(true);
     if (downScroll) {
+      //TODO exibir o som do item selecioando de acordo com os pixels -> this.position.pixels;
       this.position.jumpTo(this.offset - _PIXELS_BACK_WHEN_STOP);
     } else {
       this.position.jumpTo(this.offset + _PIXELS_BACK_WHEN_STOP);
@@ -49,7 +50,8 @@ class ScrollToTopBottomListView extends ScrollController {
       scrollToBottom();
     } else {
       animateTo(offset - height,
-          curve: Curves.linear, duration: Duration(milliseconds: 3500));
+          curve: Curves.linear,
+          duration: Duration(milliseconds: DURATION_SCROLL_MILLISECONDS));
     }
   }
 
@@ -58,7 +60,8 @@ class ScrollToTopBottomListView extends ScrollController {
       scrollToTop();
     } else {
       animateTo(offset + height,
-          curve: Curves.linear, duration: Duration(milliseconds: 3500));
+          curve: Curves.linear,
+          duration: Duration(milliseconds: DURATION_SCROLL_MILLISECONDS));
     }
   }
 
