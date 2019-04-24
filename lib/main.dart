@@ -91,7 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return null;
   }
 
-
   Widget _buildImage() {
     return Container(
       constraints: const BoxConstraints.expand(),
@@ -125,5 +124,4 @@ class _MyHomePageState extends State<MyHomePage> {
       body: _buildImage(),
     );
   }
-
 }

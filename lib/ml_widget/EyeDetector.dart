@@ -9,6 +9,7 @@ class EyeDector  {
   final Face _face;
   bool _leftEyeClosed = false;
   bool _rightEyeClosed = false;
+  bool _eyesCompleteClosed = false;
 
   EyeDector(this._face){
     execute();
@@ -17,12 +18,18 @@ class EyeDector  {
   execute(){
     if(_face != null) {
       if (_face.leftEyeOpenProbability != null &&
-          _face.leftEyeOpenProbability <= 0.5) {
+          _face.leftEyeOpenProbability <= 0.3) {
         _leftEyeClosed = true;
       }
       if (_face.rightEyeOpenProbability != null &&
-          _face.rightEyeOpenProbability <= 0.5) {
+          _face.rightEyeOpenProbability <= 0.3) {
         _rightEyeClosed = true;
+      }
+
+      if(_face.leftEyeOpenProbability != null &&
+          _face.rightEyeOpenProbability != null &&
+          _face.rightEyeOpenProbability <= 0.2 && _face.leftEyeOpenProbability <= 0.2){
+        _eyesCompleteClosed = true;
       }
     }
   }
@@ -33,6 +40,10 @@ class EyeDector  {
 
   bool getLeftEyeClosed() {
     return _leftEyeClosed;
+  }
+
+  bool getCompleteEyesClosed() {
+    return _eyesCompleteClosed;
   }
 
 }

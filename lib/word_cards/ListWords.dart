@@ -36,19 +36,42 @@ class ListWords extends StatelessWidget {
   Widget build(BuildContext context) {
     _selectionAction(EyeDector(getFaceDetected()));
     double height = MediaQuery.of(context).size.height;
-    _controller.moveDown(height);
+    _controller.move(height);
     return Column(children: <Widget>[
       Container(
-        height: 60,
+        height: 105,
         color: Colors.white,
         child: Center(
           child: Align(
             alignment: FractionalOffset.topCenter,
-            child: Text(
-              "Pisque os dois olhos para selecionar a imagem.",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Wrap(
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        "Pisque os dois olhos para selecionar.",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ), Text(
+                        "Pisque o direito durante 2 segundos para exibir os elementos para cima",
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),Text(
+                        "Pisque o esquerdo durante 2 segundos para exibir os elementos para baixo",
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
@@ -74,14 +97,12 @@ class ListWords extends StatelessWidget {
   }
 
   _selectionAction(EyeDector eyeDector) {
-    bool rightEyeClosed = eyeDector.getRightEyeClosed();
-    bool leftEyeClosed = eyeDector.getLeftEyeClosed();
-    if (rightEyeClosed && leftEyeClosed && !_controller.getStop()) {
+    if (eyeDector.getCompleteEyesClosed() && !_controller.getStop()) {
       _controller.stopAndScrollBack();
-    } else if (rightEyeClosed) {
-      _controller.incrementPiscadas();
-    } else if (leftEyeClosed) {
-      _controller.incrementPiscadas();
+    } else if ( eyeDector.getRightEyeClosed()) {
+      _controller.incrementPiscadas(false);
+    } else if (eyeDector.getLeftEyeClosed()) {
+      _controller.incrementPiscadas(true);
 
     } else {}
   }
