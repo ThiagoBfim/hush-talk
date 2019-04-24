@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ScrollToTopBottomListView extends ScrollController {
   static const int _SIZE_PISCADAS_TO_CHANGE_ACTION = 7;
-  static const int _PIXELS_BACK_WHEN_STOP = 20;
-  static const DURATION_SCROLL_MILLISECONDS = 3500;
+  static const int _PIXELS_BACK_WHEN_STOP = 30;
+  static const DURATION_SCROLL_MILLISECONDS = 4500;
   bool _stop = false;
   int _piscadas = 0;
   bool downScroll = true;
