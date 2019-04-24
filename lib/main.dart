@@ -119,11 +119,19 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Hush Talk'),
-        actions: <Widget>[],
-      ),
+      primary: false,
+      appBar: EmptyAppBar(),
       body: _buildImage(),
     );
   }
+}
+
+class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(color:Colors.red,);
+  }
+
+  @override
+  Size get preferredSize => Size(0.0, 24);
 }
