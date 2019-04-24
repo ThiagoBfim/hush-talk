@@ -51,10 +51,10 @@ class ListWords extends StatelessWidget {
                   Column(
                     children: <Widget>[
                       Text(
-                        "Pisque os dois olhos para selecionar.",
+                        "Pisque os dois olhos por 1 segundo para selecionar.",
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
                         ),
                       ), Text(
                         "Pisque o direito durante 2 segundos para exibir os elementos para cima",
@@ -96,8 +96,10 @@ class ListWords extends StatelessWidget {
   }
 
   _selectionAction(EyeDector eyeDector) {
-    if (eyeDector.getCompleteEyesClosed() && !_controller.getStop()) {
-      _controller.stopAndScrollBack();
+    if (eyeDector.getCompleteEyesClosed()) {
+      if(!_controller.getStop()) {
+        _controller.stopAndScrollBack();
+      }
     } else if ( eyeDector.getRightEyeClosed()) {
       _controller.incrementPiscadas(false);
     } else if (eyeDector.getLeftEyeClosed()) {
