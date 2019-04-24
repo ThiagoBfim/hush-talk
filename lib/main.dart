@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/word_cards/ListWords.dart';
 import 'package:hush_talk/word_cards/ScrollToTopBottomListView.dart';
+import 'package:screen/screen.dart';
 
 import 'utils.dart';
 
@@ -28,6 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    Screen.keepOn(true);
     _controller = ScrollToTopBottomListView();
     _initializeCamera();
   }
