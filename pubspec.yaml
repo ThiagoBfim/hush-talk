@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  screen: ^0.0.5
   camera: ^0.4.3+2
   firebase_ml_vision: ^0.6.0
 
