@@ -5,11 +5,13 @@ import 'WordCard.dart';
 class WordItem extends StatelessWidget {
   final WordCard wordCard;
   final height;
+  final bool selected;
 
   const WordItem({
     Key key,
     @required this.wordCard,
     @required this.height,
+    @required this.selected,
   }) : super(key: key);
 
   @override
@@ -23,6 +25,7 @@ class WordItem extends StatelessWidget {
               Positioned(
                 left: 0,
                 right: 0,
+                top: 0,
                 bottom: 0,
                 child: Hero(
                   tag: "background_${wordCard.title}",
@@ -31,24 +34,48 @@ class WordItem extends StatelessWidget {
                     elevation: 10,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
-                    child: Text(
-                      wordCard.title,
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w600,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          selected
+                              ? Colors.green
+                              : Color(63),
+                          Colors.white,
+                        ],
+                      )),
+                      child: Container(
+                        alignment: Alignment.bottomLeft,
+                        margin: EdgeInsets.only(
+                          left: 20,
+                          bottom: 10,
+                        ),
+                        child: Text(
+                          wordCard.title,
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Hero(
-                  tag: "image_${wordCard.title}",
-                  child: Image.network(
-                    wordCard.avatar,
-//                      width: width / 2,
-                    height: height,
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: 50.0,
+                ),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Hero(
+                    tag: "image_${wordCard.title}",
+                    child: Image.network(
+                      wordCard.avatar,
+                      height: height,
+                    ),
                   ),
                 ),
               ),

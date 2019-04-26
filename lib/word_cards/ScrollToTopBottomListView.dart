@@ -4,9 +4,12 @@ class ScrollToTopBottomListView extends ScrollController {
   static const int _SIZE_PISCADAS_TO_CHANGE_ACTION = 7;
   static const int _PIXELS_BACK_WHEN_STOP = 30;
   static const DURATION_SCROLL_MILLISECONDS = 4500;
+  static const double DEFAULT_INIT_POSITION_STOP = _PIXELS_BACK_WHEN_STOP * -1 + -1.0;
   bool _stop = false;
   int _piscadas = 0;
   bool downScroll = true;
+
+  double positionStoped = DEFAULT_INIT_POSITION_STOP;
 
   scrollToTop() {
     this.animateTo(this.position.minScrollExtent,
@@ -22,10 +25,11 @@ class ScrollToTopBottomListView extends ScrollController {
     setStop(true);
     if (downScroll) {
       //TODO exibir o som do item selecioando de acordo com os pixels -> this.position.pixels;
-      this.position.jumpTo(this.offset - _PIXELS_BACK_WHEN_STOP);
+      positionStoped = this.offset - _PIXELS_BACK_WHEN_STOP;
     } else {
-      this.position.jumpTo(this.offset + _PIXELS_BACK_WHEN_STOP);
+      positionStoped = this.offset + _PIXELS_BACK_WHEN_STOP;
     }
+    this.position.jumpTo(positionStoped);
   }
 
   bool getStop() {

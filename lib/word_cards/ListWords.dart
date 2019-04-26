@@ -56,13 +56,15 @@ class ListWords extends StatelessWidget {
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
                         ),
-                      ), Text(
+                      ),
+                      Text(
                         "Pisque o direito durante 2 segundos para exibir os elementos para cima",
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                         ),
-                      ),Text(
+                      ),
+                      Text(
                         "Pisque o esquerdo durante 2 segundos para exibir os elementos para baixo",
                         style: TextStyle(
                           fontSize: 13,
@@ -86,25 +88,26 @@ class ListWords extends StatelessWidget {
           itemBuilder: (context, index) {
             final wordCard = wordCards[index];
             return WordItem(
-              wordCard: wordCard,
-              height: height,
-            );
+                wordCard: wordCard, height: height, selected: isSelected(index));
           },
         ),
       )
     ]);
   }
 
+  bool isSelected(int index) {
+    return _controller.positionStoped >= ScrollToTopBottomListView.DEFAULT_INIT_POSITION_STOP && (_controller.positionStoped/itemSize).round() == index;
+  }
+
   _selectionAction(EyeDector eyeDector) {
     if (eyeDector.getCompleteEyesClosed()) {
-      if(!_controller.getStop()) {
+      if (!_controller.getStop()) {
         _controller.stopAndScrollBack();
       }
-    } else if ( eyeDector.getRightEyeClosed()) {
+    } else if (eyeDector.getRightEyeClosed()) {
       _controller.incrementPiscadas(false);
     } else if (eyeDector.getLeftEyeClosed()) {
       _controller.incrementPiscadas(true);
     } else {}
   }
-
 }
