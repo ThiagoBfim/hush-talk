@@ -96,7 +96,8 @@ class ListWords extends StatelessWidget {
   }
 
   bool isSelected(int index) {
-    return _controller.positionStoped >= ScrollToTopBottomListView.DEFAULT_INIT_POSITION_STOP && (_controller.positionStoped/itemSize).round() == index;
+    return _controller.positionStoped > ScrollToTopBottomListView.DEFAULT_INIT_POSITION_STOP
+        && (_controller.positionStoped/itemSize).round() == index;
   }
 
   _selectionAction(EyeDector eyeDector) {
