@@ -32,6 +32,11 @@ class ScrollToTopBottomListView extends ScrollController {
     this.position.jumpTo(positionStoped);
   }
 
+  forceSelectedJustElement(position){
+    positionStoped = position;
+    this.position.jumpTo(position);
+  }
+
   bool getStop() {
     return _stop;
   }
