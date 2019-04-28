@@ -1,49 +1,30 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
-import 'package:hush_talk/word_cards/ListCadsPage.dart';
+import 'package:hush_talk/word_cards/ListWords.dart';
 import 'package:hush_talk/word_cards/ScrollToTopBottomListView.dart';
 import 'package:screen/screen.dart';
 
-import 'menu/CategoriaMenuList.dart';
+class ListCardsPage extends StatefulWidget {
+  ListCardsPage();
 
-void main() => runApp(MaterialApp(home: MyHomePage()));
-
-class MyHomePage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _ListCardsPageState createState() => _ListCardsPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _ListCardsPageState extends State<ListCardsPage> {
   dynamic _scanResults;
   CameraController _camera;
   ScrollToTopBottomListView _controller;
   bool _isDetecting = false;
   CameraLensDirection _direction = CameraLensDirection.front;
 
-//  @override
-//  void didChangeDependencies() {
-//    super.didChangeDependencies();
-//    var route = ModalRoute.of(context);
-//    if (route != null && _controller.getStop()) {
-//      print('CHANGE');
-//      Screen.keepOn(true);
-//      _controller = ScrollToTopBottomListView();
-//      _initializeCamera();
-//    }
-//  }
-
   @override
   void initState() {
     super.initState();
-    print('ON_INIT');
     Screen.keepOn(true);
     _controller = ScrollToTopBottomListView();
     _initializeCamera();
@@ -69,14 +50,14 @@ class _MyHomePageState extends State<MyHomePage> {
       _isDetecting = true;
 
       detect(image, _getDetectionMethod(), rotation).then(
-        (dynamic result) {
+            (dynamic result) {
           setState(() {
             _scanResults = result;
           });
           _isDetecting = false;
         },
       ).catchError(
-        (_) {
+            (_) {
           _isDetecting = false;
         },
       );
@@ -102,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     List<Face> faces = _scanResults;
     if (faces.length > 0) {
+      print("TESTE22 -> face");
       return faces[0];
     }
     return null;
@@ -112,37 +94,22 @@ class _MyHomePageState extends State<MyHomePage> {
       constraints: const BoxConstraints.expand(),
       child: _camera == null
           ? const Center(
-              child: Text(
-                'Initializing Camera...',
-                style: TextStyle(
-                  color: Colors.green,
-                  fontSize: 30.0,
-                ),
-              ),
-            )
+        child: Text(
+          'Initializing Camera...',
+          style: TextStyle(
+            color: Colors.green,
+            fontSize: 30.0,
+          ),
+        ),
+      )
           : Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                CategoriaMenuList(
-                    _scanResults, _camera, _controller, _changePage),
+        fit: StackFit.expand,
+        children: <Widget>[
+          ListWords(_scanResults, _camera, _controller),
 //                _buildResults(),
-              ],
-            ),
+        ],
+      ),
     );
-  }
-
-  _changePage() {
-    var route = ModalRoute.of(context);
-    if (route != null) {
-      print("testeeeee" + route.settings.name);
-      Future.delayed(const Duration(milliseconds: 500), () {
-        setState(() {
-          _camera.stopImageStream();
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => ListCardsPage()));
-        });
-      });
-    }
   }
 
   @override
@@ -154,3 +121,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+

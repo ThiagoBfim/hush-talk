@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hush_talk/model/CardModel.dart';
 
-import 'WordCard.dart';
 
 class WordItem extends StatelessWidget {
-  final WordCard wordCard;
+  final CardModel card;
   final height;
+  final width;
   final bool selected;
 
   const WordItem({
     Key key,
-    @required this.wordCard,
+    @required this.card,
     @required this.height,
+    @required this.width,
     @required this.selected,
   }) : super(key: key);
 
@@ -28,7 +30,7 @@ class WordItem extends StatelessWidget {
                 top: 0,
                 bottom: 0,
                 child: Hero(
-                  tag: "background_${wordCard.title}",
+                  tag: "background_${card.title}",
                   child: Card(
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     elevation: 10,
@@ -40,9 +42,7 @@ class WordItem extends StatelessWidget {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          selected
-                              ? Colors.green
-                              : Color(63),
+                          selected ? Colors.green : Color(63),
                           Colors.white,
                         ],
                       )),
@@ -53,7 +53,7 @@ class WordItem extends StatelessWidget {
                           bottom: 10,
                         ),
                         child: Text(
-                          wordCard.title,
+                          card.title,
                           style: TextStyle(
                             fontSize: 40,
                             fontWeight: FontWeight.w600,
@@ -67,14 +67,17 @@ class WordItem extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(
                   bottom: 50.0,
+                  left: 5.0,
+                  right: 5.0,
                 ),
                 child: Align(
                   alignment: Alignment.topRight,
                   child: Hero(
-                    tag: "image_${wordCard.title}",
+                    tag: "image_${card.title}",
                     child: Image.network(
-                      wordCard.avatar,
+                      card.avatar,
                       height: height,
+                      width: width,
                     ),
                   ),
                 ),
@@ -83,4 +86,5 @@ class WordItem extends StatelessWidget {
           )),
     );
   }
+
 }

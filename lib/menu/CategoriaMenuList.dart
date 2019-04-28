@@ -2,18 +2,20 @@ import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/ml_widget/EyeDetector.dart';
+import 'package:hush_talk/word_cards/ScrollToTopBottomListView.dart';
+import 'package:hush_talk/word_cards/WordItem.dart';
 
-import 'DbzCards.dart';
-import 'ScrollToTopBottomListView.dart';
-import 'WordItem.dart';
+import 'MenuCards.dart';
 
-class ListWords extends StatelessWidget {
+class CategoriaMenuList extends StatelessWidget {
   final _scanResults;
   final CameraController _camera;
   final ScrollToTopBottomListView _controller;
   final double itemSize = 420.0;
+  final VoidCallback _changePage;
 
-  ListWords(this._scanResults, this._camera, this._controller);
+  CategoriaMenuList(
+      this._scanResults, this._camera, this._controller, this._changePage);
 
   Face getFaceDetected() {
     if (_scanResults == null ||
@@ -34,7 +36,7 @@ class ListWords extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _selectionAction(EyeDector(getFaceDetected()));
+    _selectionAction(EyeDector(getFaceDetected()), context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     _controller.move(height);
@@ -83,11 +85,11 @@ class ListWords extends StatelessWidget {
       Expanded(
         child: ListView.builder(
           controller: _controller,
-          itemCount: dbzCards.length,
+          itemCount: menuCards.length,
           scrollDirection: Axis.vertical,
           itemExtent: itemSize,
           itemBuilder: (context, index) {
-            final cardModel = dbzCards[index];
+            final cardModel = menuCards[index];
             return WordItem(
                 card: cardModel,
                 height: height,
@@ -113,15 +115,9 @@ class ListWords extends StatelessWidget {
     return select;
   }
 
-  _selectionAction(EyeDector eyeDector) {
+  _selectionAction(EyeDector eyeDector, BuildContext context) {
     if (eyeDector.getCompleteEyesClosed()) {
-      if (!_controller.getStop()) {
-        _controller.stopAndScrollBack();
-      }
-    } else if (eyeDector.getRightEyeClosed()) {
-      _controller.incrementPiscadas(false);
-    } else if (eyeDector.getLeftEyeClosed()) {
-      _controller.incrementPiscadas(true);
+        Function.apply(_changePage, []);
     } else {}
   }
 }
