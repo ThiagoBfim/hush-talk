@@ -3,11 +3,10 @@
 // found in the LICENSE file.
 
 import 'package:camera/camera.dart';
-import 'package:firebase_ml_vision/firebase_ml_vision.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
+import 'package:hush_talk/word_cards/CameraMLController.dart';
 import 'package:hush_talk/word_cards/ListCadsPage.dart';
 import 'package:hush_talk/word_cards/ScrollBackMenuListView.dart';
 import 'package:screen/screen.dart';
@@ -23,22 +22,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   dynamic _scanResults;
-  CameraController _camera;
+  CameraMLController _camera;
   ScrollBackMenuListView _controller;
   bool _isDetecting = false;
   CameraLensDirection _direction = CameraLensDirection.front;
- bool _pageChanged = false;
-//  @override
-//  void didChangeDependencies() {
-//    super.didChangeDependencies();
-//    var route = ModalRoute.of(context);
-//    if (route != null && _controller.getStop()) {
-//      print('CHANGE');
-//      Screen.keepOn(true);
-//      _controller = ScrollToTopBottomListView();
-//      _initializeCamera();
-//    }
-//  }
+  bool _pageChanged = false;
 
   @override
   void initState() {
@@ -49,62 +37,16 @@ class _MyHomePageState extends State<MyHomePage> {
     _initializeCamera();
   }
 
-  void _initializeCamera() async {
-    CameraDescription description = await getCamera(_direction);
-    ImageRotation rotation = rotationIntToImageRotation(
-      description.sensorOrientation,
-    );
-
-    _camera = CameraController(
-      description,
-      defaultTargetPlatform == TargetPlatform.iOS
-          ? ResolutionPreset.low
-          : ResolutionPreset.medium,
-    );
-    await _camera.initialize();
-
-    _camera.startImageStream((CameraImage image) {
-      if (_isDetecting) return;
-
-      _isDetecting = true;
-
-      detect(image, _getDetectionMethod(), rotation).then(
-        (dynamic result) {
-          setState(() {
-            _scanResults = result;
-          });
-          _isDetecting = false;
-        },
-      ).catchError(
-        (_) {
-          _isDetecting = false;
-        },
-      );
+  updateStateCamera(result) {
+    setState(() {
+      _scanResults = result;
     });
   }
 
-  HandleDetection _getDetectionMethod() {
-    final FirebaseVision mlVision = FirebaseVision.instance;
-    return mlVision
-        .faceDetector(FaceDetectorOptions(enableClassification: true))
-        .processImage;
-  }
-
-  Face getFaceDetected() {
-    if (_scanResults == null ||
-        _camera == null ||
-        !_camera.value.isInitialized) {
-      return null;
-    }
-
-    if (_scanResults is! List<Face>) {
-      return null;
-    }
-    List<Face> faces = _scanResults;
-    if (faces.length > 0) {
-      return faces[0];
-    }
-    return null;
+  void _initializeCamera() async {
+    CameraDescription description = await getCamera(_direction);
+    _camera = CameraMLController(description, updateStateCamera);
+    _camera.init();
   }
 
   Widget _buildImage() {
@@ -136,10 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (route != null && !_pageChanged) {
       Future.delayed(const Duration(milliseconds: 500), () {
         setState(() {
-          try {
-            _camera.stopImageStream();
-          } catch(e){
-          }
+          _camera.stop();
           _pageChanged = true;
           Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => ListCardsPage()));

@@ -1,7 +1,6 @@
-import 'package:camera/camera.dart';
-import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/ml_widget/EyeDetector.dart';
+import 'package:hush_talk/word_cards/CameraMLController.dart';
 import 'package:hush_talk/word_cards/ScrollBackMenuListView.dart';
 import 'package:hush_talk/word_cards/WordItem.dart';
 
@@ -9,7 +8,7 @@ import 'MenuCards.dart';
 
 class CategoriaMenuList extends StatelessWidget {
   final _scanResults;
-  final CameraController _camera;
+  final CameraMLController _camera;
   final ScrollBackMenuListView _controller;
   final double itemSize = 420.0;
   final VoidCallback _changePage;
@@ -17,29 +16,12 @@ class CategoriaMenuList extends StatelessWidget {
   CategoriaMenuList(
       this._scanResults, this._camera, this._controller, this._changePage);
 
-  Face getFaceDetected() {
-    if (_scanResults == null ||
-        _camera == null ||
-        !_camera.value.isInitialized) {
-      return null;
-    }
-
-    if (_scanResults is! List<Face>) {
-      return null;
-    }
-    List<Face> faces = _scanResults;
-    if (faces.length > 0) {
-      return faces[0];
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
-    _selectionAction(EyeDector(getFaceDetected()), context);
+    _selectionAction(EyeDector(_camera.getFaceDetected(_scanResults)), context);
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    _controller.move(height);
+    _controller.moveDown(height);
     return Column(children: <Widget>[
       Container(
         height: 105,
