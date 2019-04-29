@@ -2,7 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/ml_widget/EyeDetector.dart';
-import 'package:hush_talk/word_cards/ScrollToTopBottomListView.dart';
+import 'package:hush_talk/word_cards/ScrollBackMenuListView.dart';
 import 'package:hush_talk/word_cards/WordItem.dart';
 
 import 'MenuCards.dart';
@@ -10,7 +10,7 @@ import 'MenuCards.dart';
 class CategoriaMenuList extends StatelessWidget {
   final _scanResults;
   final CameraController _camera;
-  final ScrollToTopBottomListView _controller;
+  final ScrollBackMenuListView _controller;
   final double itemSize = 420.0;
   final VoidCallback _changePage;
 
@@ -105,7 +105,7 @@ class CategoriaMenuList extends StatelessWidget {
   bool isSelected(int index) {
     bool select = _controller.getStop() &&
         _controller.positionStoped >
-            ScrollToTopBottomListView.DEFAULT_INIT_POSITION_STOP &&
+            ScrollBackMenuListView.DEFAULT_INIT_POSITION_STOP &&
         (_controller.positionStoped / itemSize).round() == index;
     if (select) {
       if (_controller.positionStoped != index * itemSize) {

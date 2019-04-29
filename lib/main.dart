@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
 import 'package:hush_talk/word_cards/ListCadsPage.dart';
-import 'package:hush_talk/word_cards/ScrollToTopBottomListView.dart';
+import 'package:hush_talk/word_cards/ScrollBackMenuListView.dart';
 import 'package:screen/screen.dart';
 
 import 'menu/CategoriaMenuList.dart';
@@ -24,10 +24,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   dynamic _scanResults;
   CameraController _camera;
-  ScrollToTopBottomListView _controller;
+  ScrollBackMenuListView _controller;
   bool _isDetecting = false;
   CameraLensDirection _direction = CameraLensDirection.front;
-
+ bool _pageChanged = false;
 //  @override
 //  void didChangeDependencies() {
 //    super.didChangeDependencies();
@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     print('ON_INIT');
     Screen.keepOn(true);
-    _controller = ScrollToTopBottomListView();
+    _controller = ScrollBackMenuListView(() => {});
     _initializeCamera();
   }
 
@@ -133,11 +133,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _changePage() {
     var route = ModalRoute.of(context);
-    if (route != null) {
-      print("testeeeee" + route.settings.name);
+    if (route != null && !_pageChanged) {
       Future.delayed(const Duration(milliseconds: 500), () {
         setState(() {
-          _camera.stopImageStream();
+          try {
+            _camera.stopImageStream();
+          } catch(e){
+          }
+          _pageChanged = true;
           Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => ListCardsPage()));
         });

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ScrollToTopBottomListView extends ScrollController {
+class ScrollBackMenuListView extends ScrollController {
   static const int _SIZE_PISCADAS_TO_CHANGE_ACTION = 7;
   static const int _PIXELS_BACK_WHEN_STOP = 30;
   static const DURATION_SCROLL_MILLISECONDS = 4500;
@@ -8,8 +8,11 @@ class ScrollToTopBottomListView extends ScrollController {
   bool _stop = false;
   int _piscadas = 0;
   bool downScroll = true;
-
   double positionStoped = DEFAULT_INIT_POSITION_STOP;
+
+  final VoidCallback _backMenu;
+
+  ScrollBackMenuListView(this._backMenu);
 
   scrollToTop() {
     this.animateTo(this.position.minScrollExtent,
@@ -79,7 +82,8 @@ class ScrollToTopBottomListView extends ScrollController {
       if (downScroll) {
         moveDown(height);
       } else {
-        moveUp(height);
+        Function.apply(_backMenu, []);
+        setStop(true);
       }
     }
   }

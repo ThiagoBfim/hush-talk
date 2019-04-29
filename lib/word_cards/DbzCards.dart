@@ -3,30 +3,30 @@ import 'package:hush_talk/model/CardModel.dart';
 final dbzCards = <CardModel>[
   CardModel(
     title: "Goku",
-    avatar: "https://github.com/diegoveloper/flutter-samples/blob/master/images/characters/goku.png?raw=true",
+    avatar: "images/dbz/goku.png",
   ),
   CardModel(
     title: "Vegeta",
-    avatar: "https://github.com/diegoveloper/flutter-samples/blob/master/images/characters/vegeta.png?raw=true",
+    avatar: "images/dbz/vegeta.png",
   ),
   CardModel(
     title: "Gohan",
-    avatar: "https://github.com/diegoveloper/flutter-samples/blob/master/images/characters/gohan.png?raw=true",
+    avatar: "images/dbz/gohan.png",
   ),
   CardModel(
     title: "Frieza",
-    avatar: "https://github.com/diegoveloper/flutter-samples/blob/master/images/characters/frieza.png?raw=true",
+    avatar: "images/dbz/frieza.png",
   ),
   CardModel(
     title: "Cell",
-    avatar: "https://github.com/diegoveloper/flutter-samples/blob/master/images/characters/cell.png?raw=true",
+    avatar: "images/dbz/cell.png",
   ),
   CardModel(
     title: "Majin Buu",
-    avatar: "https://github.com/diegoveloper/flutter-samples/blob/master/images/characters/boo.png?raw=true",
+    avatar: "images/dbz/boo.png",
   ),
   CardModel(
     title: "Broly",
-    avatar: "https://github.com/diegoveloper/flutter-samples/blob/master/images/characters/broly.png?raw=true",
+    avatar: "images/dbz/broly.png",
   ),
 ];

@@ -74,7 +74,7 @@ class WordItem extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: Hero(
                     tag: "image_${card.title}",
-                    child: Image.network(
+                    child: Image.asset(
                       card.avatar,
                       height: height,
                       width: width,
