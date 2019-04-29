@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:hush_talk/ml_widget/EyeDetector.dart';
 
 import 'DbzCards.dart';
-import 'ScrollToTopBottomListView.dart';
+import 'ScrollBackMenuListView.dart';
 import 'WordItem.dart';
 
 class ListWords extends StatelessWidget {
   final _scanResults;
   final CameraController _camera;
-  final ScrollToTopBottomListView _controller;
+  final ScrollBackMenuListView _controller;
   final double itemSize = 420.0;
 
   ListWords(this._scanResults, this._camera, this._controller);
@@ -59,14 +59,14 @@ class ListWords extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Pisque o direito durante 2 segundos para exibir os elementos para cima",
+                        "Pisque o esquerdo durante 2 segundos para voltar para o menu",
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       Text(
-                        "Pisque o esquerdo durante 2 segundos para exibir os elementos para baixo",
+                        "Pisque o direito durante 2 segundos para exibir os elementos para baixo",
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -103,7 +103,7 @@ class ListWords extends StatelessWidget {
   bool isSelected(int index) {
     bool select = _controller.getStop() &&
         _controller.positionStoped >
-            ScrollToTopBottomListView.DEFAULT_INIT_POSITION_STOP &&
+            ScrollBackMenuListView.DEFAULT_INIT_POSITION_STOP &&
         (_controller.positionStoped / itemSize).round() == index;
     if (select) {
       if (_controller.positionStoped != index * itemSize) {
@@ -119,9 +119,9 @@ class ListWords extends StatelessWidget {
         _controller.stopAndScrollBack();
       }
     } else if (eyeDector.getRightEyeClosed()) {
-      _controller.incrementPiscadas(false);
-    } else if (eyeDector.getLeftEyeClosed()) {
       _controller.incrementPiscadas(true);
+    } else if (eyeDector.getLeftEyeClosed()) {
+      _controller.incrementPiscadas(false);
     } else {}
   }
 }

@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
 import 'package:hush_talk/word_cards/ListWords.dart';
-import 'package:hush_talk/word_cards/ScrollToTopBottomListView.dart';
+import 'package:hush_talk/word_cards/ScrollBackMenuListView.dart';
 import 'package:screen/screen.dart';
+
+import '../main.dart';
 
 class ListCardsPage extends StatefulWidget {
   ListCardsPage();
@@ -18,7 +20,7 @@ class ListCardsPage extends StatefulWidget {
 class _ListCardsPageState extends State<ListCardsPage> {
   dynamic _scanResults;
   CameraController _camera;
-  ScrollToTopBottomListView _controller;
+  ScrollBackMenuListView _controller;
   bool _isDetecting = false;
   CameraLensDirection _direction = CameraLensDirection.front;
 
@@ -26,7 +28,7 @@ class _ListCardsPageState extends State<ListCardsPage> {
   void initState() {
     super.initState();
     Screen.keepOn(true);
-    _controller = ScrollToTopBottomListView();
+    _controller = ScrollBackMenuListView(_backMenu);
     _initializeCamera();
   }
 
@@ -83,7 +85,6 @@ class _ListCardsPageState extends State<ListCardsPage> {
     }
     List<Face> faces = _scanResults;
     if (faces.length > 0) {
-      print("TESTE22 -> face");
       return faces[0];
     }
     return null;
@@ -110,6 +111,19 @@ class _ListCardsPageState extends State<ListCardsPage> {
         ],
       ),
     );
+  }
+
+  _backMenu(){
+    var route = ModalRoute.of(context);
+    if (route != null) {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          Navigator.of(context).pop();
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => MyHomePage()));
+        });
+      });
+    }
   }
 
   @override
