@@ -7,7 +7,7 @@ class ScrollBackMenuListView extends ScrollController {
   static const double DEFAULT_INIT_POSITION_STOP = _PIXELS_BACK_WHEN_STOP * -1 + -1.0;
   bool _stop = false;
   int _piscadas = 0;
-  bool downScroll = true;
+  bool scrollAtive = true;
   double positionStoped = DEFAULT_INIT_POSITION_STOP;
 
   final VoidCallback _backMenu;
@@ -26,18 +26,20 @@ class ScrollBackMenuListView extends ScrollController {
 
   stopAndScrollBack() {
     setStop(true);
-    if (downScroll) {
+    if (scrollAtive) {
       //TODO exibir o som do item selecioando de acordo com os pixels -> this.position.pixels;
       positionStoped = this.offset - _PIXELS_BACK_WHEN_STOP;
-    } else {
-      positionStoped = this.offset + _PIXELS_BACK_WHEN_STOP;
+      this.position.jumpTo(positionStoped);
     }
-    this.position.jumpTo(positionStoped);
   }
 
   forceSelectedJustElement(position){
     positionStoped = position;
-    this.position.jumpTo(position);
+    try {
+      this.position.jumpTo(position);
+    } catch(e){
+      print("Force to Jump position.");
+    }
   }
 
   bool getStop() {
@@ -48,42 +50,30 @@ class ScrollBackMenuListView extends ScrollController {
     this._stop = stop;
   }
 
-  incrementPiscadas(bool downScroll) {
+  incrementPiscadas(bool scroll) {
     _piscadas++;
     if (_piscadas >= _SIZE_PISCADAS_TO_CHANGE_ACTION) {
-      setStop(false);
-      this.downScroll = downScroll;
+      if(!scroll){
+        Function.apply(_backMenu, []);
+        setStop(true);
+      } else {
+        setStop(false);
+        this.scrollAtive = scroll;
+      }
       _piscadas = 0;
     }
   }
 
-  moveUp(double height) {
-    if (offset <= position.minScrollExtent) {
-      scrollToBottom();
-    } else {
-      animateTo(offset - height,
-          curve: Curves.linear,
-          duration: Duration(milliseconds: DURATION_SCROLL_MILLISECONDS));
-    }
-  }
-
   moveDown(double height) {
-    if (offset >= position.maxScrollExtent) {
-      scrollToTop();
-    } else {
-      animateTo(offset + height,
-          curve: Curves.linear,
-          duration: Duration(milliseconds: DURATION_SCROLL_MILLISECONDS));
-    }
-  }
-
-  void move(double height) {
     if (positions.isNotEmpty && !getStop()) {
-      if (downScroll) {
-        moveDown(height);
-      } else {
-        Function.apply(_backMenu, []);
-        setStop(true);
+      if (scrollAtive) {
+        if (offset >= position.maxScrollExtent) {
+          scrollToTop();
+        } else {
+          animateTo(offset + height,
+              curve: Curves.linear,
+              duration: Duration(milliseconds: DURATION_SCROLL_MILLISECONDS));
+        }
       }
     }
   }
