@@ -69,6 +69,7 @@ class WordItem extends StatelessWidget {
                   bottom: 50.0,
                   left: 5.0,
                   right: 5.0,
+                  top: 10.0,
                 ),
                 child: Align(
                   alignment: Alignment.topRight,

@@ -9,18 +9,18 @@ import 'package:screen/screen.dart';
 import '../main.dart';
 import 'CameraMLController.dart';
 
-class ListCardsPage extends StatefulWidget {
-  ListCardsPage();
+class ListWordsPage extends StatefulWidget {
 
   @override
-  _ListCardsPageState createState() => _ListCardsPageState();
+  _ListWordsPageState createState() => _ListWordsPageState();
 }
 
-class _ListCardsPageState extends State<ListCardsPage> {
+class _ListWordsPageState extends State<ListWordsPage> {
   dynamic _scanResults;
   CameraMLController _camera;
   ScrollBackMenuListView _controller;
   CameraLensDirection _direction = CameraLensDirection.front;
+  bool _pageChanged = false;
 
   @override
   void initState() {
@@ -58,7 +58,6 @@ class _ListCardsPageState extends State<ListCardsPage> {
         fit: StackFit.expand,
         children: <Widget>[
           ListWords(_scanResults, _camera, _controller),
-//                _buildResults(),
         ],
       ),
     );
@@ -66,9 +65,10 @@ class _ListCardsPageState extends State<ListCardsPage> {
 
   _backMenu(){
     var route = ModalRoute.of(context);
-    if (route != null) {
+    if (route != null && !_pageChanged) {
       Future.delayed(const Duration(milliseconds: 500), () {
         setState(() {
+          _pageChanged = true;
           Navigator.of(context).pop();
           Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => MyHomePage()));

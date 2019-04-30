@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:hush_talk/ml_widget/EyeDetector.dart';
 
 import 'CameraMLController.dart';
-import 'DbzCards.dart';
 import 'ScrollBackMenuListView.dart';
 import 'WordItem.dart';
+import 'cards/WordsCards.dart';
 
 class ListWords extends StatelessWidget {
   final _scanResults;
   final CameraMLController _camera;
   final ScrollBackMenuListView _controller;
-  final double itemSize = 420.0;
+  final double itemSize = 340.0;
 
   ListWords(this._scanResults, this._camera, this._controller);
 
@@ -65,34 +65,20 @@ class ListWords extends StatelessWidget {
       Expanded(
         child: ListView.builder(
           controller: _controller,
-          itemCount: dbzCards.length,
-          scrollDirection: Axis.vertical,
+          itemCount: wordsCards.length,
+          scrollDirection: Axis.horizontal,
           itemExtent: itemSize,
           itemBuilder: (context, index) {
-            final cardModel = dbzCards[index];
+            final cardModel = wordsCards[index];
             return WordItem(
                 card: cardModel,
-                height: height,
-                width: width,
-                selected: isSelected(index));
+                height: height/3,
+                width: width ,
+                selected: _controller.isSelected(index, itemSize));
           },
         ),
       )
     ]);
-  }
-
-  //TODO mover essa logica para o scroll controller
-  bool isSelected(int index) {
-    bool select = _controller.getStop() &&
-        _controller.positionStoped >
-            ScrollBackMenuListView.DEFAULT_INIT_POSITION_STOP &&
-        (_controller.positionStoped / itemSize).round() == index;
-    if (select) {
-      if (_controller.positionStoped != index * itemSize) {
-        _controller.forceSelectedJustElement(index * itemSize);
-      }
-    }
-    return select;
   }
 
   _selectionAction(EyeDector eyeDector) {

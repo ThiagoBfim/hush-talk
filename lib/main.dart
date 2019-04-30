@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
 import 'package:hush_talk/word_cards/CameraMLController.dart';
-import 'package:hush_talk/word_cards/ListCadsPage.dart';
+import 'package:hush_talk/word_cards/ListCardsPage.dart';
+import 'package:hush_talk/word_cards/ListWordsPage.dart';
 import 'package:hush_talk/word_cards/ScrollBackMenuListView.dart';
 import 'package:screen/screen.dart';
 
@@ -73,15 +74,20 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  _changePage() {
+  _changePage(index) {
     var route = ModalRoute.of(context);
     if (route != null && !_pageChanged) {
       Future.delayed(const Duration(milliseconds: 500), () {
         setState(() {
           _camera.stop();
           _pageChanged = true;
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => ListCardsPage()));
+          if(index == 0){
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => ListWordsPage()));
+          } else {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => ListCardsPage()));
+          }
         });
       });
     }
