@@ -53,5 +53,53 @@ final wordsCards = <CardModel>[
   ), CardModel(
     title: "O",
     avatar: "images/alfabeto/O.png",
+  ), CardModel(
+    title: "O",
+    avatar: "images/alfabeto/O.png",
+  ), CardModel(
+    title: "P",
+    avatar: "images/alfabeto/P.png",
+  ), CardModel(
+    title: "Q",
+    avatar: "images/alfabeto/Q.png",
+  ), CardModel(
+    title: "R",
+    avatar: "images/alfabeto/R.png",
+  ), CardModel(
+    title: "S",
+    avatar: "images/alfabeto/S.png",
+  ), CardModel(
+    title: "T",
+    avatar: "images/alfabeto/T.png",
+  ), CardModel(
+    title: "O",
+    avatar: "images/alfabeto/O.png",
+  ), CardModel(
+    title: "U",
+    avatar: "images/alfabeto/U.png",
+  ), CardModel(
+    title: "V",
+    avatar: "images/alfabeto/V.png",
+  ), CardModel(
+    title: "W",
+    avatar: "images/alfabeto/W.png",
+  ), CardModel(
+    title: "X",
+    avatar: "images/alfabeto/X.png",
+  ), CardModel(
+    title: "Y",
+    avatar: "images/alfabeto/Y.png",
+  ), CardModel(
+    title: "Z",
+    avatar: "images/alfabeto/Z.png",
+  ),CardModel(
+    title: "Apagar",
+    avatar: "images/alfabeto/back-space.png",
+  ),CardModel(
+    title: "Espaço",
+    avatar: "images/alfabeto/space.png",
+  ),CardModel(
+    title: "Ponto",
+    avatar: "images/alfabeto/ponto.png",
   ),
 ];
