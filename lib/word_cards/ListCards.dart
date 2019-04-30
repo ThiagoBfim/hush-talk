@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:hush_talk/ml_widget/EyeDetector.dart';
-import 'package:hush_talk/word_cards/CameraMLController.dart';
-import 'package:hush_talk/word_cards/ScrollBackMenuListView.dart';
-import 'package:hush_talk/word_cards/WordItem.dart';
+import 'package:hush_talk/word_cards/cards/DbzCards.dart';
 
-import 'MenuCards.dart';
+import 'CameraMLController.dart';
+import 'ScrollBackMenuListView.dart';
+import 'WordItem.dart';
 
-class CategoriaMenuList extends StatelessWidget {
+class ListCards extends StatelessWidget {
   final _scanResults;
   final CameraMLController _camera;
   final ScrollBackMenuListView _controller;
   final double itemSize = 420.0;
-  final Function _changePage;
 
-  CategoriaMenuList(
-      this._scanResults, this._camera, this._controller, this._changePage);
+  ListCards(this._scanResults, this._camera, this._controller);
 
   @override
   Widget build(BuildContext context) {
-    _selectionAction(EyeDector(_camera.getFaceDetected(_scanResults)), context);
+    _selectionAction(EyeDector(_camera.getFaceDetected(_scanResults)));
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     _controller.moveDown(height);
@@ -43,14 +41,14 @@ class CategoriaMenuList extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Pisque o direito durante 2 segundos para exibir os elementos para cima",
+                        "Pisque o esquerdo durante 2 segundos para voltar para o menu",
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       Text(
-                        "Pisque o esquerdo durante 2 segundos para exibir os elementos para baixo",
+                        "Pisque o direito durante 2 segundos para exibir os elementos para baixo",
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -67,11 +65,11 @@ class CategoriaMenuList extends StatelessWidget {
       Expanded(
         child: ListView.builder(
           controller: _controller,
-          itemCount: menuCards.length,
+          itemCount: dbzCards.length,
           scrollDirection: Axis.vertical,
           itemExtent: itemSize,
           itemBuilder: (context, index) {
-            final cardModel = menuCards[index];
+            final cardModel = dbzCards[index];
             return WordItem(
                 card: cardModel,
                 height: height,
@@ -97,11 +95,15 @@ class CategoriaMenuList extends StatelessWidget {
     return select;
   }
 
-  _selectionAction(EyeDector eyeDector, BuildContext context) {
+  _selectionAction(EyeDector eyeDector) {
     if (eyeDector.getCompleteEyesClosed()) {
-      _controller.stopAndScrollBack();
-      int index = _controller.getIndexStopped(itemSize);
-        Function.apply(_changePage, [index]);
+      if (!_controller.getStop()) {
+        _controller.stopAndScrollBack();
+      }
+    } else if (eyeDector.getRightEyeClosed()) {
+      _controller.incrementPiscadas(true);
+    } else if (eyeDector.getLeftEyeClosed()) {
+      _controller.incrementPiscadas(false);
     } else {}
   }
 }

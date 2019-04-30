@@ -69,8 +69,12 @@ class CameraMLController extends CameraController {
 
   void stop() {
     try {
-      stopImageStream();
-      stopVideoRecording();
+      if (value.isStreamingImages) {
+        stopImageStream();
+      }
+      if (value.isRecordingVideo) {
+        stopVideoRecording();
+      }
     } catch (e) {
       print('Ocorreceu um erro ao tentar parar o a camera.');
     }

@@ -33,11 +33,10 @@ class ScrollBackMenuListView extends ScrollController {
     }
   }
 
-  forceSelectedJustElement(position){
-    positionStoped = position;
+  forceSelectedJustElement(position) {
     try {
       this.position.jumpTo(position);
-    } catch(e){
+    } catch (e) {
       print("Force to Jump position.");
     }
   }
@@ -53,7 +52,7 @@ class ScrollBackMenuListView extends ScrollController {
   incrementPiscadas(bool scroll) {
     _piscadas++;
     if (_piscadas >= _SIZE_PISCADAS_TO_CHANGE_ACTION) {
-      if(!scroll){
+      if (!scroll) {
         Function.apply(_backMenu, []);
         setStop(true);
       } else {
@@ -76,5 +75,21 @@ class ScrollBackMenuListView extends ScrollController {
         }
       }
     }
+  }
+
+  bool isSelected(int index, double itemSize) {
+    bool select = getStop() &&
+        positionStoped > ScrollBackMenuListView.DEFAULT_INIT_POSITION_STOP &&
+        getIndexStopped(itemSize) == index;
+    if (select) {
+      if (positionStoped != index * itemSize) {
+        forceSelectedJustElement(index * itemSize);
+      }
+    }
+    return select;
+  }
+
+  int getIndexStopped(double itemSize) {
+    return (positionStoped / itemSize).round();
   }
 }
