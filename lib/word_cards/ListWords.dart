@@ -72,19 +72,52 @@ class ListWords extends StatelessWidget {
             final cardModel = wordsCards[index];
             return WordItem(
                 card: cardModel,
-                height: height/3,
-                width: width ,
+                height: height / 3,
+                width: width,
                 selected: _controller.isSelected(index, itemSize));
           },
         ),
-      )
+      ),
+      Column(children: <Widget>[
+        Align(
+          alignment: FractionalOffset.topLeft,
+          child: Text(
+            "Resultado:",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ),
+        Container(
+          width: width,
+          margin: const EdgeInsets.all(30.0),
+          padding: EdgeInsets.all(10),
+          decoration: myBoxDecoration(),
+          child: Text(
+            "${_controller.getWord().toLowerCase()}",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ),
+      ]),
     ]);
+  }
+
+  BoxDecoration myBoxDecoration() {
+    return BoxDecoration(
+      border: Border.all(),
+    );
   }
 
   _selectionAction(EyeDector eyeDector) {
     if (eyeDector.getCompleteEyesClosed()) {
       if (!_controller.getStop()) {
         _controller.stopAndScrollBack();
+        var indexStopped = _controller.getIndexStopped(itemSize);
+        _controller.updateWord(wordsCards[indexStopped].title);
       }
     } else if (eyeDector.getRightEyeClosed()) {
       _controller.incrementPiscadas(true);

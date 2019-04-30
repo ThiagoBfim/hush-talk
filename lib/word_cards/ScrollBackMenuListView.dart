@@ -4,11 +4,13 @@ class ScrollBackMenuListView extends ScrollController {
   static const int _SIZE_PISCADAS_TO_CHANGE_ACTION = 7;
   static const int _PIXELS_BACK_WHEN_STOP = 30;
   static const DURATION_SCROLL_MILLISECONDS = 4500;
-  static const double DEFAULT_INIT_POSITION_STOP = _PIXELS_BACK_WHEN_STOP * -1 + -1.0;
+  static const double DEFAULT_INIT_POSITION_STOP =
+      _PIXELS_BACK_WHEN_STOP * -1 + -1.0;
   bool _stop = false;
   int _piscadas = 0;
   bool scrollAtive = true;
   double positionStoped = DEFAULT_INIT_POSITION_STOP;
+  String _word = ""; //TODO ISSO NÃO DEVE FICAR AQUI.
 
   final VoidCallback _backMenu;
 
@@ -91,5 +93,13 @@ class ScrollBackMenuListView extends ScrollController {
 
   int getIndexStopped(double itemSize) {
     return (positionStoped / itemSize).round();
+  }
+
+  updateWord(String word) {
+    this._word += word;
+  }
+
+  getWord() {
+    return this._word;
   }
 }
