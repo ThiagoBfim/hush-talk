@@ -36,24 +36,10 @@ class CategoriaMenuList extends StatelessWidget {
                   Column(
                     children: <Widget>[
                       Text(
-                        "Pisque os dois olhos por 1 segundo para selecionar.",
+                        "Feche os dois olhos por 1 segundo para selecionar.",
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 19,
                           fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      Text(
-                        "Pisque o direito durante 2 segundos para exibir os elementos para cima",
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Pisque o esquerdo durante 2 segundos para exibir os elementos para baixo",
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -76,25 +62,11 @@ class CategoriaMenuList extends StatelessWidget {
                 card: cardModel,
                 height: height,
                 width: width,
-                selected: isSelected(index));
+                selected: _controller.isSelected(index, itemSize));
           },
         ),
       )
     ]);
-  }
-
-  //TODO mover essa logica para o scroll controller
-  bool isSelected(int index) {
-    bool select = _controller.getStop() &&
-        _controller.positionStoped >
-            ScrollBackMenuListView.DEFAULT_INIT_POSITION_STOP &&
-        (_controller.positionStoped / itemSize).round() == index;
-    if (select) {
-      if (_controller.positionStoped != index * itemSize) {
-        _controller.forceSelectedJustElement(index * itemSize);
-      }
-    }
-    return select;
   }
 
   _selectionAction(EyeDector eyeDector, BuildContext context) {

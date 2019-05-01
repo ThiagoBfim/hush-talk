@@ -10,7 +10,7 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
   ScrollBackMenuWordsListView(VoidCallback _backMenu)
       : super(
             backMenu: _backMenu,
-            durationScrollMilliseconds: 3500,
+            durationScrollMilliseconds: 4500,
             sizePiscadasToChangeAction: 5);
 
   void scrollBack() {
@@ -54,10 +54,12 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
     var word = wordCard.title;
     var specialAction = wordCard.specialAction;
     scrollToTop();
-    if ("space" == specialAction) {
-      this._word += " ";
-    } else if ("remove" == specialAction) {
-      this._word = this._word.substring(0, this._word.length - 1);
+    if (specialAction != "") {
+      if ("space" == specialAction) {
+        this._word += " ";
+      } else if ("remove" == specialAction && this._word.length >= 1) {
+        this._word = this._word.substring(0, this._word.length - 1);
+      }
     } else {
       if (!this._word.endsWith(word)) {
         this._word += word;
