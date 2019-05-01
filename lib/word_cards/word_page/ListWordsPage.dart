@@ -1,66 +1,27 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:hush_talk/util/CameraUtils.dart';
-import 'package:hush_talk/util/EmptyAppBar.dart';
+import 'package:hush_talk/word_cards/ListAbsctractPage.dart';
 import 'package:hush_talk/word_cards/word_page/ListWords.dart';
 import 'package:hush_talk/word_cards/word_page/ScrollBackMenuWordsListView.dart';
-import 'package:screen/screen.dart';
 
 import '../../main.dart';
-import '../CameraMLController.dart';
 
-class ListWordsPage extends StatefulWidget {
+class ListWordsPage extends ListAbsctractPage {
 
   @override
   _ListWordsPageState createState() => _ListWordsPageState();
 }
 
-class _ListWordsPageState extends State<ListWordsPage> {
-  dynamic _scanResults;
-  CameraMLController _camera;
-  ScrollBackMenuWordsListView _controller;
-  CameraLensDirection _direction = CameraLensDirection.front;
+class _ListWordsPageState extends ListAbsctractPageState {
   bool _pageChanged = false;
 
   @override
-  void initState() {
-    super.initState();
-    Screen.keepOn(true);
-    _controller = ScrollBackMenuWordsListView(_backMenu);
-    _initializeCamera();
+  createList(){
+    return ListWords(scanResults, camera, controller);
   }
 
-  updateStateCamera(result){
-    setState(() {
-      _scanResults = result;
-    });
-  }
-  void _initializeCamera() async {
-    CameraDescription description = await getCamera(_direction);
-    _camera = CameraMLController(description, updateStateCamera);
-    _camera.init();
-  }
-
-  Widget _buildImage() {
-    return Container(
-      constraints: const BoxConstraints.expand(),
-      child: _camera == null
-          ? const Center(
-        child: Text(
-          'Initializing Camera...',
-          style: TextStyle(
-            color: Colors.green,
-            fontSize: 30.0,
-          ),
-        ),
-      )
-          : Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          ListWords(_scanResults, _camera, _controller),
-        ],
-      ),
-    );
+  @override
+  ScrollBackMenuWordsListView initScrollController() {
+    return ScrollBackMenuWordsListView(_backMenu);
   }
 
   _backMenu(){
@@ -75,15 +36,6 @@ class _ListWordsPageState extends State<ListWordsPage> {
         });
       });
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      primary: false,
-      appBar: EmptyAppBar(),
-      body: _buildImage(),
-    );
   }
 }
 

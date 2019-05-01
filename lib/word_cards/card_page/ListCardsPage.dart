@@ -1,71 +1,33 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:hush_talk/util/CameraUtils.dart';
-import 'package:hush_talk/util/EmptyAppBar.dart';
+import 'package:hush_talk/word_cards/ListAbsctractPage.dart';
 import 'package:hush_talk/word_cards/card_page/ListCards.dart';
 import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
-import 'package:screen/screen.dart';
 
 import '../../main.dart';
-import '../CameraMLController.dart';
 
-class ListCardsPage extends StatefulWidget {
-  ListCardsPage();
+class ListCardsPage extends ListAbsctractPage {
 
   @override
-  _ListCardsPageState createState() => _ListCardsPageState();
+  createState() {
+    return _ListCardsPageState();
+  }
 }
 
-class _ListCardsPageState extends State<ListCardsPage> {
-  dynamic _scanResults;
-  CameraMLController _camera;
-  ScrollBackMenuListView _controller;
-  CameraLensDirection _direction = CameraLensDirection.front;
+class _ListCardsPageState extends ListAbsctractPageState {
+
   bool _pageChanged = false;
 
   @override
-  void initState() {
-    super.initState();
-    Screen.keepOn(true);
-    _controller = ScrollBackMenuListView(backMenu: _backMenu);
-    _initializeCamera();
+  ScrollBackMenuListView initScrollController() {
+    return ScrollBackMenuListView(backMenu: _backMenu);
   }
 
-  updateStateCamera(result){
-    setState(() {
-      _scanResults = result;
-    });
-  }
-  void _initializeCamera() async {
-    CameraDescription description = await getCamera(_direction);
-    _camera = CameraMLController(description, updateStateCamera);
-    _camera.init();
+  @override
+  Widget createList() {
+    return ListCards(scanResults, camera, controller);
   }
 
-  Widget _buildImage() {
-    return Container(
-      constraints: const BoxConstraints.expand(),
-      child: _camera == null
-          ? const Center(
-        child: Text(
-          'Initializing Camera...',
-          style: TextStyle(
-            color: Colors.green,
-            fontSize: 30.0,
-          ),
-        ),
-      )
-          : Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          ListCards(_scanResults, _camera, _controller),
-//                _buildResults(),
-        ],
-      ),
-    );
-  }
-
-  _backMenu(){
+  _backMenu() {
     var route = ModalRoute.of(context);
     if (route != null && !_pageChanged) {
       Future.delayed(const Duration(milliseconds: 500), () {
@@ -79,13 +41,5 @@ class _ListCardsPageState extends State<ListCardsPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      primary: false,
-      appBar: EmptyAppBar(),
-      body: _buildImage(),
-    );
-  }
 }
 
