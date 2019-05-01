@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hush_talk/ml_widget/EyeDetector.dart';
+import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
+import 'package:hush_talk/word_cards/cards/DbzCards.dart';
 
-import 'CameraMLController.dart';
-import 'ScrollBackMenuListView.dart';
-import 'WordItem.dart';
-import 'cards/WordsCards.dart';
+import '../CameraMLController.dart';
+import '../WordItem.dart';
 
-class ListWords extends StatelessWidget {
+class ListCards extends StatelessWidget {
   final _scanResults;
   final CameraMLController _camera;
   final ScrollBackMenuListView _controller;
-  final double itemSize = 340.0;
+  final double itemSize = 420.0;
 
-  ListWords(this._scanResults, this._camera, this._controller);
+  ListCards(this._scanResults, this._camera, this._controller);
 
   @override
   Widget build(BuildContext context) {
@@ -65,59 +65,26 @@ class ListWords extends StatelessWidget {
       Expanded(
         child: ListView.builder(
           controller: _controller,
-          itemCount: wordsCards.length,
-          scrollDirection: Axis.horizontal,
+          itemCount: dbzCards.length,
+          scrollDirection: Axis.vertical,
           itemExtent: itemSize,
           itemBuilder: (context, index) {
-            final cardModel = wordsCards[index];
+            final cardModel = dbzCards[index];
             return WordItem(
                 card: cardModel,
-                height: height / 3,
+                height: height,
                 width: width,
                 selected: _controller.isSelected(index, itemSize));
           },
         ),
-      ),
-      Column(children: <Widget>[
-        Align(
-          alignment: FractionalOffset.topLeft,
-          child: Text(
-            "Resultado:",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-        ),
-        Container(
-          width: width,
-          margin: const EdgeInsets.all(30.0),
-          padding: EdgeInsets.all(10),
-          decoration: myBoxDecoration(),
-          child: Text(
-            "${_controller.getWord().toLowerCase()}",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-        ),
-      ]),
+      )
     ]);
-  }
-
-  BoxDecoration myBoxDecoration() {
-    return BoxDecoration(
-      border: Border.all(),
-    );
   }
 
   _selectionAction(EyeDector eyeDector) {
     if (eyeDector.getCompleteEyesClosed()) {
       if (!_controller.getStop()) {
         _controller.stopAndScrollBack();
-        var indexStopped = _controller.getIndexStopped(itemSize);
-        _controller.updateWord(wordsCards[indexStopped].title);
       }
     } else if (eyeDector.getRightEyeClosed()) {
       _controller.incrementPiscadas(true);

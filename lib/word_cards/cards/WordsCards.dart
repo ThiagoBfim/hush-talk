@@ -1,6 +1,15 @@
 import 'package:hush_talk/model/CardModel.dart';
 
-final wordsCards = <CardModel>[
+final _wordsCards = <CardModel>[
+  CardModel(
+      title: "Apagar",
+      avatar: "images/alfabeto/back-space.png",
+      specialAction: "remove"
+  ),CardModel(
+      title: "Espaço",
+      avatar: "images/alfabeto/space.png",
+      specialAction: "space"
+  ),
   CardModel(
     title: "A",
     avatar: "images/alfabeto/A.png",
@@ -54,9 +63,6 @@ final wordsCards = <CardModel>[
     title: "O",
     avatar: "images/alfabeto/O.png",
   ), CardModel(
-    title: "O",
-    avatar: "images/alfabeto/O.png",
-  ), CardModel(
     title: "P",
     avatar: "images/alfabeto/P.png",
   ), CardModel(
@@ -71,9 +77,6 @@ final wordsCards = <CardModel>[
   ), CardModel(
     title: "T",
     avatar: "images/alfabeto/T.png",
-  ), CardModel(
-    title: "O",
-    avatar: "images/alfabeto/O.png",
   ), CardModel(
     title: "U",
     avatar: "images/alfabeto/U.png",
@@ -93,13 +96,10 @@ final wordsCards = <CardModel>[
     title: "Z",
     avatar: "images/alfabeto/Z.png",
   ),CardModel(
-    title: "Apagar",
-    avatar: "images/alfabeto/back-space.png",
-  ),CardModel(
-    title: "Espaço",
-    avatar: "images/alfabeto/space.png",
-  ),CardModel(
     title: "Ponto",
     avatar: "images/alfabeto/ponto.png",
   ),
 ];
+
+List<CardModel> get getWordsCards => _wordsCards;
+

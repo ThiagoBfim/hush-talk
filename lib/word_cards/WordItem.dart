@@ -13,7 +13,7 @@ class WordItem extends StatelessWidget {
     @required this.card,
     @required this.height,
     @required this.width,
-    @required this.selected,
+    this.selected = false,
   }) : super(key: key);
 
   @override
