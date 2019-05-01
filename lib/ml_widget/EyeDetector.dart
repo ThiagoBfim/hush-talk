@@ -2,34 +2,26 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 
-class EyeDector  {
+class EyeDector {
   final Face _face;
   bool _leftEyeClosed = false;
   bool _rightEyeClosed = false;
-  bool _eyesCompleteClosed = false;
 
-  EyeDector(this._face){
+  EyeDector(this._face) {
     execute();
   }
 
-  execute(){
-    if(_face != null) {
+  execute() {
+    if (_face != null) {
       if (_face.leftEyeOpenProbability != null &&
-          _face.leftEyeOpenProbability <= 0.3) {
+          _face.leftEyeOpenProbability <= 0.2) {
         _leftEyeClosed = true;
       }
       if (_face.rightEyeOpenProbability != null &&
-          _face.rightEyeOpenProbability <= 0.3) {
+          _face.rightEyeOpenProbability <= 0.2) {
         _rightEyeClosed = true;
-      }
-
-      if(_face.leftEyeOpenProbability != null &&
-          _face.rightEyeOpenProbability != null &&
-          _face.rightEyeOpenProbability <= 0.3 && _face.leftEyeOpenProbability <= 0.3){
-        _eyesCompleteClosed = true;
       }
     }
   }
@@ -43,7 +35,6 @@ class EyeDector  {
   }
 
   bool getCompleteEyesClosed() {
-    return _eyesCompleteClosed;
+    return _leftEyeClosed && _rightEyeClosed;
   }
-
 }
