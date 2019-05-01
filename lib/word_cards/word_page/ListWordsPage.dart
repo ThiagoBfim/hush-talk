@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hush_talk/model/CardModel.dart';
 import 'package:hush_talk/word_cards/ListAbsctractPage.dart';
 import 'package:hush_talk/word_cards/word_page/ListWords.dart';
 import 'package:hush_talk/word_cards/word_page/ScrollBackMenuWordsListView.dart';
@@ -6,13 +7,19 @@ import 'package:hush_talk/word_cards/word_page/ScrollBackMenuWordsListView.dart'
 import '../../main.dart';
 
 class ListWordsPage extends ListAbsctractPage {
+  final List<CardModel> cardList;
+  ListWordsPage(this.cardList);
+
 
   @override
-  _ListWordsPageState createState() => _ListWordsPageState();
+  _ListWordsPageState createState() => _ListWordsPageState(cardList);
 }
 
 class _ListWordsPageState extends ListAbsctractPageState {
   bool _pageChanged = false;
+  final List<CardModel> cardList;
+
+  _ListWordsPageState(this.cardList);
 
   @override
   createList(){
@@ -21,7 +28,7 @@ class _ListWordsPageState extends ListAbsctractPageState {
 
   @override
   ScrollBackMenuWordsListView initScrollController() {
-    return ScrollBackMenuWordsListView(_backMenu);
+    return ScrollBackMenuWordsListView(_backMenu, cardList);
   }
 
   _backMenu(){
