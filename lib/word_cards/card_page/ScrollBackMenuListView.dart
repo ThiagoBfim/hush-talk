@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 
 class ScrollBackMenuListView extends ScrollController {
-  static const int _SIZE_PISCADAS_TO_CHANGE_ACTION = 7;
   static const int _PIXELS_BACK_WHEN_STOP = 30;
-  static const DURATION_SCROLL_MILLISECONDS = 4500;
   static const double DEFAULT_INIT_POSITION_STOP =
       _PIXELS_BACK_WHEN_STOP * -1 + -1.0;
+  final int durationScrollMilliseconds;
+  final int sizePiscadasToChangeAction;
+  final VoidCallback backMenu;
   bool _stop = false;
   int _piscadas = 0;
   bool scrollAtive = true;
   double positionStoped = DEFAULT_INIT_POSITION_STOP;
-  String _word = ""; //TODO ISSO NÃO DEVE FICAR AQUI.
 
-  final VoidCallback _backMenu;
-
-  ScrollBackMenuListView(this._backMenu);
+  ScrollBackMenuListView(
+      {@required this.backMenu,
+      int durationScrollMilliseconds = 4500,
+      int sizePiscadasToChangeAction = 7})
+      : this.sizePiscadasToChangeAction = sizePiscadasToChangeAction,
+        this.durationScrollMilliseconds = durationScrollMilliseconds;
 
   scrollToTop() {
     this.animateTo(this.position.minScrollExtent,
@@ -30,9 +33,18 @@ class ScrollBackMenuListView extends ScrollController {
     setStop(true);
     if (scrollAtive) {
       //TODO exibir o som do item selecioando de acordo com os pixels -> this.position.pixels;
-      positionStoped = this.offset - _PIXELS_BACK_WHEN_STOP;
-      this.position.jumpTo(positionStoped);
+      scrollBack();
+      try {
+        this.position.jumpTo(positionStoped);
+      } catch(e){
+        print("Force to Jump position.");
+      }
     }
+  }
+
+
+  void scrollBack() {
+    positionStoped = this.offset - _PIXELS_BACK_WHEN_STOP;
   }
 
   forceSelectedJustElement(position) {
@@ -53,9 +65,9 @@ class ScrollBackMenuListView extends ScrollController {
 
   incrementPiscadas(bool scroll) {
     _piscadas++;
-    if (_piscadas >= _SIZE_PISCADAS_TO_CHANGE_ACTION) {
+    if (_piscadas >= sizePiscadasToChangeAction) {
       if (!scroll) {
-        Function.apply(_backMenu, []);
+        Function.apply(backMenu, []);
         setStop(true);
       } else {
         setStop(false);
@@ -71,12 +83,16 @@ class ScrollBackMenuListView extends ScrollController {
         if (offset >= position.maxScrollExtent) {
           scrollToTop();
         } else {
-          animateTo(offset + height,
-              curve: Curves.linear,
-              duration: Duration(milliseconds: DURATION_SCROLL_MILLISECONDS));
+          scroll(height);
         }
       }
     }
+  }
+
+  void scroll(double height) {
+    animateTo(offset + height,
+        curve: Curves.linear,
+        duration: Duration(milliseconds: durationScrollMilliseconds));
   }
 
   bool isSelected(int index, double itemSize) {
@@ -95,11 +111,11 @@ class ScrollBackMenuListView extends ScrollController {
     return (positionStoped / itemSize).round();
   }
 
-  updateWord(String word) {
-    this._word += word;
-  }
+  int get getPixelsBackWhenStop => _PIXELS_BACK_WHEN_STOP;
 
-  getWord() {
-    return this._word;
+  int get getPiscadas => _piscadas;
+
+  setPiscadas(int piscada) {
+    this._piscadas = piscada;
   }
 }

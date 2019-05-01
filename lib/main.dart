@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
 import 'package:hush_talk/word_cards/CameraMLController.dart';
-import 'package:hush_talk/word_cards/ListCardsPage.dart';
-import 'package:hush_talk/word_cards/ListWordsPage.dart';
-import 'package:hush_talk/word_cards/ScrollBackMenuListView.dart';
+import 'package:hush_talk/word_cards/card_page/ListCardsPage.dart';
+import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
+import 'package:hush_talk/word_cards/word_page/ListWordsPage.dart';
 import 'package:screen/screen.dart';
 
 import 'menu/CategoriaMenuList.dart';
@@ -32,9 +32,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    print('ON_INIT');
     Screen.keepOn(true);
-    _controller = ScrollBackMenuListView(() => {});
+    _controller = ScrollBackMenuListView(backMenu: () => {});
     _initializeCamera();
   }
 

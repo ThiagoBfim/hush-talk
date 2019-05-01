@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hush_talk/ml_widget/EyeDetector.dart';
-import 'package:hush_talk/word_cards/cards/DbzCards.dart';
+import 'package:hush_talk/word_cards/word_page/ScrollBackMenuWordsListView.dart';
 
-import 'CameraMLController.dart';
-import 'ScrollBackMenuListView.dart';
-import 'WordItem.dart';
+import '../CameraMLController.dart';
+import '../WordItem.dart';
 
-class ListCards extends StatelessWidget {
+class ListWords extends StatelessWidget {
   final _scanResults;
   final CameraMLController _camera;
-  final ScrollBackMenuListView _controller;
-  final double itemSize = 420.0;
+  final ScrollBackMenuWordsListView _controller;
+  final double itemSize = 340.0;
 
-  ListCards(this._scanResults, this._camera, this._controller);
+  ListWords(this._scanResults, this._camera, this._controller);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +47,7 @@ class ListCards extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Pisque o direito durante 2 segundos para exibir os elementos para baixo",
+                        "Pisque o direito durante 2 segundos para inverter a ordem de exibição dos elementos",
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -65,40 +64,54 @@ class ListCards extends StatelessWidget {
       Expanded(
         child: ListView.builder(
           controller: _controller,
-          itemCount: dbzCards.length,
-          scrollDirection: Axis.vertical,
+          itemCount: _controller.wordList.length,
+          scrollDirection: Axis.horizontal,
           itemExtent: itemSize,
           itemBuilder: (context, index) {
-            final cardModel = dbzCards[index];
-            return WordItem(
-                card: cardModel,
-                height: height,
-                width: width,
-                selected: isSelected(index));
+            final cardModel = _controller.wordList[index];
+            return WordItem(card: cardModel, height: height / 3, width: width);
           },
         ),
-      )
+      ),
+      Column(children: <Widget>[
+        Align(
+          alignment: FractionalOffset.topLeft,
+          child: Text(
+            "Resultado:",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ),
+        Container(
+          width: width,
+          margin: const EdgeInsets.all(30.0),
+          padding: EdgeInsets.all(10),
+          decoration: myBoxDecoration(),
+          child: Text(
+            "${_controller.getWord().toLowerCase()}",
+            style: TextStyle(
+              color: Colors.red,
+              fontSize: 24,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ),
+      ]),
     ]);
   }
 
-  //TODO mover essa logica para o scroll controller
-  bool isSelected(int index) {
-    bool select = _controller.getStop() &&
-        _controller.positionStoped >
-            ScrollBackMenuListView.DEFAULT_INIT_POSITION_STOP &&
-        (_controller.positionStoped / itemSize).round() == index;
-    if (select) {
-      if (_controller.positionStoped != index * itemSize) {
-        _controller.forceSelectedJustElement(index * itemSize);
-      }
-    }
-    return select;
+  BoxDecoration myBoxDecoration() {
+    return BoxDecoration(
+      border: Border.all(),
+    );
   }
 
   _selectionAction(EyeDector eyeDector) {
     if (eyeDector.getCompleteEyesClosed()) {
       if (!_controller.getStop()) {
-        _controller.stopAndScrollBack();
+        _controller.updateWord(itemSize);
       }
     } else if (eyeDector.getRightEyeClosed()) {
       _controller.incrementPiscadas(true);

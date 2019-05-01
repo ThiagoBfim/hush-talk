@@ -2,20 +2,21 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
-import 'package:hush_talk/word_cards/ListWords.dart';
-import 'package:hush_talk/word_cards/ScrollBackMenuListView.dart';
+import 'package:hush_talk/word_cards/card_page/ListCards.dart';
+import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
 import 'package:screen/screen.dart';
 
-import '../main.dart';
-import 'CameraMLController.dart';
+import '../../main.dart';
+import '../CameraMLController.dart';
 
-class ListWordsPage extends StatefulWidget {
+class ListCardsPage extends StatefulWidget {
+  ListCardsPage();
 
   @override
-  _ListWordsPageState createState() => _ListWordsPageState();
+  _ListCardsPageState createState() => _ListCardsPageState();
 }
 
-class _ListWordsPageState extends State<ListWordsPage> {
+class _ListCardsPageState extends State<ListCardsPage> {
   dynamic _scanResults;
   CameraMLController _camera;
   ScrollBackMenuListView _controller;
@@ -26,7 +27,7 @@ class _ListWordsPageState extends State<ListWordsPage> {
   void initState() {
     super.initState();
     Screen.keepOn(true);
-    _controller = ScrollBackMenuListView(_backMenu);
+    _controller = ScrollBackMenuListView(backMenu: _backMenu);
     _initializeCamera();
   }
 
@@ -57,7 +58,8 @@ class _ListWordsPageState extends State<ListWordsPage> {
           : Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          ListWords(_scanResults, _camera, _controller),
+          ListCards(_scanResults, _camera, _controller),
+//                _buildResults(),
         ],
       ),
     );
