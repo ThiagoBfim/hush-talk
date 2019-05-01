@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hush_talk/model/CardModel.dart';
 
 class ScrollBackMenuListView extends ScrollController {
   static const int _PIXELS_BACK_WHEN_STOP = 30;
@@ -12,8 +13,11 @@ class ScrollBackMenuListView extends ScrollController {
   bool scrollAtive = true;
   double positionStoped = DEFAULT_INIT_POSITION_STOP;
 
+  final List<CardModel> cardList;
+
   ScrollBackMenuListView(
       {@required this.backMenu,
+      @required this.cardList,
       int durationScrollMilliseconds = 4500,
       int sizePiscadasToChangeAction = 7})
       : this.sizePiscadasToChangeAction = sizePiscadasToChangeAction,
@@ -36,12 +40,11 @@ class ScrollBackMenuListView extends ScrollController {
       scrollBack();
       try {
         this.position.jumpTo(positionStoped);
-      } catch(e){
+      } catch (e) {
         print("Force to Jump position.");
       }
     }
   }
-
 
   void scrollBack() {
     positionStoped = this.offset - _PIXELS_BACK_WHEN_STOP;

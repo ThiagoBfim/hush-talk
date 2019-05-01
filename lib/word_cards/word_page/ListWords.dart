@@ -64,11 +64,11 @@ class ListWords extends StatelessWidget {
       Expanded(
         child: ListView.builder(
           controller: _controller,
-          itemCount: _controller.wordList.length,
+          itemCount: _controller.cardList.length,
           scrollDirection: Axis.horizontal,
           itemExtent: itemSize,
           itemBuilder: (context, index) {
-            final cardModel = _controller.wordList[index];
+            final cardModel = _controller.cardList[index];
             return WordItem(card: cardModel, height: height / 3, width: width);
           },
         ),

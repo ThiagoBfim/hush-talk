@@ -4,8 +4,6 @@ import 'package:hush_talk/word_cards/CameraMLController.dart';
 import 'package:hush_talk/word_cards/WordItem.dart';
 import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
 
-import 'MenuCards.dart';
-
 class CategoriaMenuList extends StatelessWidget {
   final _scanResults;
   final CameraMLController _camera;
@@ -53,11 +51,11 @@ class CategoriaMenuList extends StatelessWidget {
       Expanded(
         child: ListView.builder(
           controller: _controller,
-          itemCount: menuCards.length,
+          itemCount: _controller.cardList.length,
           scrollDirection: Axis.vertical,
           itemExtent: itemSize,
           itemBuilder: (context, index) {
-            final cardModel = menuCards[index];
+            final cardModel = _controller.cardList[index];
             return WordItem(
                 card: cardModel,
                 height: height,

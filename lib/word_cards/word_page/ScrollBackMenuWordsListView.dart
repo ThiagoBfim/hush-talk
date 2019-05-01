@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hush_talk/model/WordCardModel.dart';
 import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
 import 'package:hush_talk/word_cards/cards/WordsCards.dart';
 
 class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
   String _word = "";
-  final wordList = getWordsCards;
   bool downScroll = true;
 
-  ScrollBackMenuWordsListView(VoidCallback _backMenu)
+  ScrollBackMenuWordsListView(VoidCallback backMenu, List<WordCardModel> cardList)
       : super(
-            backMenu: _backMenu,
+            backMenu: backMenu,
+            cardList: getWordsCards,
             durationScrollMilliseconds: 4500,
             sizePiscadasToChangeAction: 5);
 
@@ -50,7 +51,7 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
   updateWord(double itemSize) {
     stopAndScrollBack();
     var indexStopped = getIndexStopped(itemSize);
-    var wordCard = wordList[indexStopped];
+    WordCardModel wordCard = cardList[indexStopped];
     var word = wordCard.title;
     var specialAction = wordCard.specialAction;
     scrollToTop();

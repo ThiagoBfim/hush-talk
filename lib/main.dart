@@ -4,6 +4,8 @@
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:hush_talk/menu/MenuCards.dart';
+import 'package:hush_talk/model/MenuCardModel.dart';
 import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
 import 'package:hush_talk/word_cards/CameraMLController.dart';
@@ -25,7 +27,6 @@ class _MyHomePageState extends State<MyHomePage> {
   dynamic _scanResults;
   CameraMLController _camera;
   ScrollBackMenuListView _controller;
-  bool _isDetecting = false;
   CameraLensDirection _direction = CameraLensDirection.front;
   bool _pageChanged = false;
 
@@ -33,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     Screen.keepOn(true);
-    _controller = ScrollBackMenuListView(backMenu: () => {});
+    _controller = ScrollBackMenuListView(backMenu: () => {}, cardList: menuCards);
     _initializeCamera();
   }
 
@@ -80,12 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           _camera.stop();
           _pageChanged = true;
+          MenuCardModel menuCard = _controller.cardList[index];
           if(index == 0){
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => ListWordsPage()));
+                builder: (BuildContext context) => ListWordsPage(menuCard.cardList)));
           } else {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => ListCardsPage()));
+                builder: (BuildContext context) => ListCardsPage(menuCard.cardList)));
           }
         });
       });

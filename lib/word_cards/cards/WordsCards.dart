@@ -1,105 +1,106 @@
-import 'package:hush_talk/model/CardModel.dart';
 
-final _wordsCards = <CardModel>[
-  CardModel(
+import 'package:hush_talk/model/WordCardModel.dart';
+
+final _wordsCards = <WordCardModel>[
+  WordCardModel(
       title: "Apagar",
       avatar: "images/alfabeto/back-space.png",
       specialAction: "remove"
-  ),CardModel(
+  ),WordCardModel(
       title: "Espaço",
       avatar: "images/alfabeto/space.png",
       specialAction: "space"
   ),
-  CardModel(
+  WordCardModel(
     title: "A",
     avatar: "images/alfabeto/A.png",
   ),
-  CardModel(
+  WordCardModel(
     title: "B",
     avatar: "images/alfabeto/B.png",
   ),
-  CardModel(
+  WordCardModel(
     title: "C",
     avatar: "images/alfabeto/C.png",
   ),
-  CardModel(
+  WordCardModel(
     title: "D",
     avatar: "images/alfabeto/D.png",
   ),
-  CardModel(
+  WordCardModel(
     title: "E",
     avatar: "images/alfabeto/E.png",
   ),
-  CardModel(
+  WordCardModel(
     title: "F",
     avatar: "images/alfabeto/F.png",
   ),
-  CardModel(
+  WordCardModel(
     title: "G",
     avatar: "images/alfabeto/G.png",
   ),
-  CardModel(
+  WordCardModel(
     title: "H",
     avatar: "images/alfabeto/H.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "I",
     avatar: "images/alfabeto/I.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "J",
     avatar: "images/alfabeto/J.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "K",
     avatar: "images/alfabeto/K.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "L",
     avatar: "images/alfabeto/L.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "M",
     avatar: "images/alfabeto/M.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "N",
     avatar: "images/alfabeto/N.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "O",
     avatar: "images/alfabeto/O.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "P",
     avatar: "images/alfabeto/P.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "Q",
     avatar: "images/alfabeto/Q.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "R",
     avatar: "images/alfabeto/R.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "S",
     avatar: "images/alfabeto/S.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "T",
     avatar: "images/alfabeto/T.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "U",
     avatar: "images/alfabeto/U.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "V",
     avatar: "images/alfabeto/V.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "W",
     avatar: "images/alfabeto/W.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "X",
     avatar: "images/alfabeto/X.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "Y",
     avatar: "images/alfabeto/Y.png",
-  ), CardModel(
+  ), WordCardModel(
     title: "Z",
     avatar: "images/alfabeto/Z.png",
-  ),CardModel(
+  ),WordCardModel(
     title: "Ponto",
     avatar: "images/alfabeto/ponto.png",
   ),
 ];
 
-List<CardModel> get getWordsCards => _wordsCards;
+List<WordCardModel> get getWordsCards => _wordsCards;
 

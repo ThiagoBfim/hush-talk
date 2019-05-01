@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hush_talk/ml_widget/EyeDetector.dart';
 import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
-import 'package:hush_talk/word_cards/cards/DbzCards.dart';
 
 import '../CameraMLController.dart';
 import '../WordItem.dart';
@@ -65,11 +64,11 @@ class ListCards extends StatelessWidget {
       Expanded(
         child: ListView.builder(
           controller: _controller,
-          itemCount: dbzCards.length,
+          itemCount: _controller.cardList.length,
           scrollDirection: Axis.vertical,
           itemExtent: itemSize,
           itemBuilder: (context, index) {
-            final cardModel = dbzCards[index];
+            final cardModel = _controller.cardList[index];
             return WordItem(
                 card: cardModel,
                 height: height,
@@ -81,6 +80,7 @@ class ListCards extends StatelessWidget {
     ]);
   }
 
+  //TODO FICAR NO SCROLL CONTROLLER.
   _selectionAction(EyeDector eyeDector) {
     if (eyeDector.getCompleteEyesClosed()) {
       if (!_controller.getStop()) {
