@@ -19,7 +19,7 @@ class ScrollBackMenuListView extends ScrollController {
       {@required this.backMenu,
       @required this.cardList,
       int durationScrollMilliseconds = 4500,
-      int sizePiscadasToChangeAction = 7})
+      int sizePiscadasToChangeAction = 6})
       : this.sizePiscadasToChangeAction = sizePiscadasToChangeAction,
         this.durationScrollMilliseconds = durationScrollMilliseconds;
 

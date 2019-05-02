@@ -99,6 +99,7 @@ final _wordsCards = <WordCardModel>[
   ),WordCardModel(
     title: "Ponto",
     avatar: "images/alfabeto/ponto.png",
+      specialAction: "ponto"
   ),
 ];
 

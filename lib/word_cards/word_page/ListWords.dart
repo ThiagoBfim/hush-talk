@@ -40,7 +40,7 @@ class ListWords extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Feche o esquerdo durante 3 segundos para voltar para o menu",
+                        "Feche o esquerdo durante 4 segundos para voltar para o menu",
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
