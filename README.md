@@ -1,16 +1,9 @@
 # hush_talk
 
-A app for people who has sclerosis
+An application for people who have lateral sclerosis, or any problem to communicate, being possible to use only blinks.
 
-## Getting Started
+Para um uso melhor do aplicativo, é necessário seguir os seguintes passos:
+- Ele esteja a 30 centimentros da testa;
+- Ele esteja posicionado em média 20º para baixo da testa;
+- Toda ação seja realizada fechando os olhos, e não apenas piscando.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
