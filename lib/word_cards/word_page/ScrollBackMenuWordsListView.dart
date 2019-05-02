@@ -7,12 +7,13 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
   String _word = "";
   bool downScroll = true;
 
-  ScrollBackMenuWordsListView(VoidCallback backMenu, List<WordCardModel> cardList)
+  ScrollBackMenuWordsListView(
+      VoidCallback backMenu, List<WordCardModel> cardList)
       : super(
             backMenu: backMenu,
             cardList: getWordsCards,
             durationScrollMilliseconds: 4500,
-            sizePiscadasToChangeAction: 5);
+            sizePiscadasToChangeAction: 4);
 
   void scrollBack() {
     if (downScroll) {
@@ -60,6 +61,8 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
         this._word += " ";
       } else if ("remove" == specialAction && this._word.length >= 1) {
         this._word = this._word.substring(0, this._word.length - 1);
+      } else if ("ponto" == specialAction) {
+        this._word += '.';
       }
     } else {
       if (!this._word.endsWith(word)) {
