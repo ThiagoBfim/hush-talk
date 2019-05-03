@@ -55,7 +55,6 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
     WordCardModel wordCard = cardList[indexStopped];
     var word = wordCard.title;
     var specialAction = wordCard.specialAction;
-    scrollToTop();
     if (specialAction != "") {
       if ("space" == specialAction) {
         this._word += " ";
