@@ -38,6 +38,7 @@ class ScrollBackMenuListView extends ScrollController {
     if (scrollAtive) {
       //TODO exibir o som do item selecioando de acordo com os pixels -> this.position.pixels;
       scrollBack();
+      setPiscadas(0);
       try {
         this.position.jumpTo(positionStoped);
       } catch (e) {
