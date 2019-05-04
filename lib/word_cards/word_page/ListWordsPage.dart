@@ -39,7 +39,7 @@ class _ListWordsPageState extends ListAbsctractPageState {
           _pageChanged = true;
           Navigator.of(context).pop();
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => MyHomePage()));
+              builder: (BuildContext context) => MyHomePage(anuncioWasShown: true,)));
         });
       });
     }

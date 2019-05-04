@@ -6,4 +6,6 @@ Para um uso melhor do aplicativo, é necessário seguir os seguintes passos:
 - Ele esteja a 30 centimentros da testa;
 - Ele esteja posicionado em média 20º para baixo da testa;
 - Toda ação seja realizada fechando os olhos, e não apenas piscando.
+- Toda ação deverá ser realizada apenas com os olhos, qualquer toque no celular pode influenciar negativamente.
+
 
