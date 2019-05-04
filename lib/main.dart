@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:camera/camera.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/menu/MenuCards.dart';
 import 'package:hush_talk/model/MenuCardModel.dart';
@@ -19,8 +20,12 @@ import 'menu/CategoriaMenuList.dart';
 void main() => runApp(MaterialApp(home: MyHomePage()));
 
 class MyHomePage extends StatefulWidget {
+  final bool anuncioWasShown;
+
+  MyHomePage({this.anuncioWasShown = false}){}
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState(this.anuncioWasShown);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -29,13 +34,57 @@ class _MyHomePageState extends State<MyHomePage> {
   ScrollBackMenuListView _controller;
   CameraLensDirection _direction = CameraLensDirection.front;
   bool _pageChanged = false;
+  bool _anuncioWasShown;
+
+  _MyHomePageState(this._anuncioWasShown);
 
   @override
   void initState() {
     super.initState();
     Screen.keepOn(true);
-    _controller = ScrollBackMenuListView(backMenu: () => {}, cardList: menuCards);
+    if(_anuncioWasShown) {
+      _initControllers();
+    }
+  }
+
+  _initControllers(){
+    _controller =
+        ScrollBackMenuListView(backMenu: () => {}, cardList: menuCards);
     _initializeCamera();
+  }
+  void configureFireBaseAdMob() {
+    MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+      childDirected: false,
+      testDevices: <String>["525B81E4E186AEA072D42244B00590F8"], // Android emulators are considered test devices
+    );
+    var myAdMobAdAppId = "ca-app-gbpub-8991564571112984~1432764030";
+    var myAdMobAdUnitId = "ca-app-pub-8991564571112984/8450803809";
+
+    InterstitialAd myInterstitial = InterstitialAd(
+      // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+      // https://developers.google.com/admob/android/test-ads
+      // https://developers.google.com/admob/ios/test-ads
+      adUnitId: myAdMobAdUnitId,
+      targetingInfo: targetingInfo,
+      listener: (MobileAdEvent event) {
+        print("InterstitialAd event is $event");
+        if(MobileAdEvent.closed == event || MobileAdEvent.failedToLoad == event){
+          _initControllers();
+        }
+      },
+    );
+
+    FirebaseAdMob.instance.initialize(appId: myAdMobAdAppId).then((response){
+      myInterstitial
+        ..load()
+        ..show(
+          anchorType: AnchorType.bottom,
+          anchorOffset: 0.0,
+        );
+    });
+    setState(() {
+      _anuncioWasShown = true;
+    });
   }
 
   updateStateCamera(result) {
@@ -82,12 +131,14 @@ class _MyHomePageState extends State<MyHomePage> {
           _camera.stop();
           _pageChanged = true;
           MenuCardModel menuCard = _controller.cardList[index];
-          if(index == 0){
+          if (index == 0) {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => ListWordsPage(menuCard.cardList)));
+                builder: (BuildContext context) =>
+                    ListWordsPage(menuCard.cardList)));
           } else {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => ListCardsPage(menuCard.cardList)));
+                builder: (BuildContext context) =>
+                    ListCardsPage(menuCard.cardList)));
           }
         });
       });
@@ -96,6 +147,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if(!_anuncioWasShown) {
+      print(_anuncioWasShown);
+      configureFireBaseAdMob();
+    }
     return Scaffold(
       primary: false,
       appBar: EmptyAppBar(),
