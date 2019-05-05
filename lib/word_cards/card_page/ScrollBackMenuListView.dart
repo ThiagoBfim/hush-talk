@@ -11,6 +11,7 @@ class ScrollBackMenuListView extends ScrollController {
   bool _stop = false;
   int _piscadas = 0;
   bool scrollAtive = true;
+  bool _scrollingToTop = false;
   double positionStoped = DEFAULT_INIT_POSITION_STOP;
 
   final List<CardModel> cardList;
@@ -26,6 +27,7 @@ class ScrollBackMenuListView extends ScrollController {
   scrollToTop() {
     this.animateTo(this.position.minScrollExtent,
         duration: Duration(milliseconds: 1), curve: Curves.easeIn);
+    _scrollingToTop = false;
   }
 
   scrollToBottom() {
@@ -85,7 +87,12 @@ class ScrollBackMenuListView extends ScrollController {
     if (positions.isNotEmpty && !getStop()) {
       if (scrollAtive) {
         if (offset >= position.maxScrollExtent) {
-          scrollToTop();
+          if(!_scrollingToTop) {
+            new Future.delayed(const Duration(seconds: 1)).then((v) {
+              scrollToTop();
+            });
+            _scrollingToTop = true;
+          }
         } else {
           scroll(height);
         }
