@@ -21,7 +21,6 @@ class ListCards extends StatelessWidget {
     _controller.moveDown(height);
     return Column(children: <Widget>[
       Container(
-        height: 105,
         color: Colors.white,
         child: Center(
           child: Align(
@@ -61,7 +60,7 @@ class ListCards extends StatelessWidget {
           ),
         ),
       ),
-      Expanded(
+      Flexible(
         child: ListView.builder(
           controller: _controller,
           itemCount: _controller.cardList.length,
