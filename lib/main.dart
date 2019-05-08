@@ -99,7 +99,11 @@ class _MyHomePageState extends State<MyHomePage> {
           _camera.stop();
           _pageChanged = true;
           MenuCardModel menuCard = _controller.cardList[index];
-          _bannerAd?.dispose();
+          _bannerAd.isLoaded().then((loaded) {
+            if(loaded){
+              _bannerAd?.dispose();
+            }
+          });
           if (index == 0) {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
