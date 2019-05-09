@@ -24,7 +24,7 @@ class ScrollBackMenuListView extends ScrollController {
       : this.sizePiscadasToChangeAction = sizePiscadasToChangeAction,
         this.durationScrollMilliseconds = durationScrollMilliseconds;
 
-  scrollToTop() {
+  _scrollToTop() {
     this.animateTo(this.position.minScrollExtent,
         duration: Duration(milliseconds: 1), curve: Curves.easeIn);
     _scrollingToTop = false;
@@ -41,11 +41,7 @@ class ScrollBackMenuListView extends ScrollController {
       //TODO exibir o som do item selecioando de acordo com os pixels -> this.position.pixels;
       scrollBack();
       setPiscadas(0);
-      try {
-        this.position.jumpTo(positionStoped);
-      } catch (e) {
-        print("Force to Jump position.");
-      }
+      forceSelectedJustElement(positionStoped);
     }
   }
 
@@ -87,16 +83,20 @@ class ScrollBackMenuListView extends ScrollController {
     if (positions.isNotEmpty && !getStop()) {
       if (scrollAtive) {
         if (offset >= position.maxScrollExtent) {
-          if(!_scrollingToTop) {
-            new Future.delayed(const Duration(seconds: 1)).then((v) {
-              scrollToTop();
-            });
-            _scrollingToTop = true;
-          }
+          scrollingToTop();
         } else {
           scroll(height);
         }
       }
+    }
+  }
+
+  void scrollingToTop() {
+     if(!_scrollingToTop) {
+      new Future.delayed(const Duration(seconds: 1)).then((v) {
+        _scrollToTop();
+      });
+      _scrollingToTop = true;
     }
   }
 

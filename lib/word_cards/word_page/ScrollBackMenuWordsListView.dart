@@ -68,6 +68,7 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
         this._word += word;
       }
     }
+    scrollingToTop();
     setStop(false);
   }
 
