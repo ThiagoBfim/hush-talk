@@ -6,6 +6,7 @@ import 'package:hush_talk/word_cards/cards/WordsCards.dart';
 class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
   String _word = "";
   bool downScroll = true;
+  bool _forceSameWord = false;
 
   ScrollBackMenuWordsListView(
       VoidCallback backMenu, List<WordCardModel> cardList)
@@ -58,17 +59,25 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
     if (specialAction != "") {
       if ("space" == specialAction) {
         this._word += " ";
-      } else if ("remove" == specialAction && this._word.length >= 1) {
+      } else if ("remove" == specialAction && this._word.length >= 1 ||
+          _forceSameWord) {
         this._word = this._word.substring(0, this._word.length - 1);
+        if (this._word.endsWith(word)) {
+          _forceSameWord = true;
+        } else {
+          _forceSameWord = false;
+        }
       } else if ("ponto" == specialAction) {
         this._word += '.';
       }
     } else {
-      if (!this._word.endsWith(word)) {
+      if (!this._word.endsWith(word) || _forceSameWord) {
         this._word += word;
+        _forceSameWord = false;
+      } else {
+        _forceSameWord = true;
       }
     }
-    scrollingToTop();
     setStop(false);
   }
 
