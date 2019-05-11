@@ -27,7 +27,7 @@ class EyeDector {
 
       if(_face.leftEyeOpenProbability != null &&
           _face.rightEyeOpenProbability != null &&
-          _face.rightEyeOpenProbability <= 0.25 && _face.leftEyeOpenProbability <= 0.25){
+          _face.rightEyeOpenProbability <= 0.29 && _face.leftEyeOpenProbability <= 0.29){
         _eyesCompleteClosed = true;
       }
     }
