@@ -17,17 +17,17 @@ class EyeDector {
   execute() {
     if (_face != null) {
       if (_face.leftEyeOpenProbability != null &&
-          _face.leftEyeOpenProbability <= 0.35) {
-        _leftEyeClosed = true;
+          _face.leftEyeOpenProbability <= 0.4) {
+        _rightEyeClosed = true;
       }
       if (_face.rightEyeOpenProbability != null &&
-          _face.rightEyeOpenProbability <= 0.39) {
-        _rightEyeClosed = true;
+          _face.rightEyeOpenProbability <= 0.4) {
+        _leftEyeClosed = true;
       }
 
       if(_face.leftEyeOpenProbability != null &&
           _face.rightEyeOpenProbability != null &&
-          _face.rightEyeOpenProbability <= 0.29 && _face.leftEyeOpenProbability <= 0.29){
+          _face.rightEyeOpenProbability <= 0.25 && _face.leftEyeOpenProbability <= 0.25){
         _eyesCompleteClosed = true;
       }
     }
