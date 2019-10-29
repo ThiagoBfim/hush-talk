@@ -6,9 +6,7 @@ import 'package:hush_talk/word_cards/CameraMLController.dart';
 import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
 import 'package:screen/screen.dart';
 
-
 abstract class ListAbsctractPage extends StatefulWidget {
-
   ListAbsctractPage();
 
   @override
@@ -49,20 +47,20 @@ abstract class ListAbsctractPageState extends State<ListAbsctractPage> {
       constraints: const BoxConstraints.expand(),
       child: camera == null
           ? const Center(
-        child: Text(
-          'Initializing Camera...',
-          style: TextStyle(
-            color: Colors.green,
-            fontSize: 30.0,
-          ),
-        ),
-      )
+              child: Text(
+                'Inicializando a camera...',
+                style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 30.0,
+                ),
+              ),
+            )
           : Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          createList(),
-        ],
-      ),
+              fit: StackFit.expand,
+              children: <Widget>[
+                createList(),
+              ],
+            ),
     );
   }
 

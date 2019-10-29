@@ -4,7 +4,7 @@ import 'package:hush_talk/word_cards/ListAbsctractPage.dart';
 import 'package:hush_talk/word_cards/word_page/ListWords.dart';
 import 'package:hush_talk/word_cards/word_page/ScrollBackMenuWordsListView.dart';
 
-import '../../main.dart';
+import '../../Home.dart';
 
 class ListWordsPage extends ListAbsctractPage {
   final List<CardModel> cardList;
