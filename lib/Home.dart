@@ -19,6 +19,8 @@ import 'package:screen/screen.dart';
 
 import 'menu/CategoriaMenuList.dart';
 
+void main() => runApp(MaterialApp(home: MyHomePage()));
+
 class MyHomePage extends StatefulWidget {
   final bool anuncioWasShown;
 
