@@ -87,17 +87,8 @@ class ListDynamicCards extends StatelessWidget {
     ]);
   }
 
-  //TODO FICAR NO SCROLL CONTROLLER.
   _selectionAction(EyeDector eyeDector) {
-    if (eyeDector.getCompleteEyesClosed()) {
-      if (!_controller.getStop()) {
-        _controller.stopAndScrollBack();
-      }
-    } else if (eyeDector.getRightEyeClosed()) {
-      _controller.incrementPiscadas(true);
-    } else if (eyeDector.getLeftEyeClosed()) {
-      _controller.incrementPiscadas(false);
-    } else {}
+    _controller.updateAction(eyeDector);
   }
 
   deleteImage(imagePath) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hush_talk/ml_widget/EyeDetector.dart';
 import 'package:hush_talk/model/WordCardModel.dart';
 import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
 import 'package:hush_talk/word_cards/cards/WordsCards.dart';
@@ -7,6 +8,7 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
   String _word = "";
   bool downScroll = true;
   bool _forceSameWord = false;
+  double _itemSize = 340.0;
 
   ScrollBackMenuWordsListView(
       VoidCallback backMenu, List<WordCardModel> cardList)
@@ -83,5 +85,22 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
 
   getWord() {
     return this._word;
+  }
+
+  @override
+  void updateAction(EyeDector eyeDector) {
+    if (eyeDector.getCompleteEyesClosed()) {
+      if (!getStop()) {
+        updateWord(_itemSize);
+      }
+    } else if (eyeDector.getRightEyeClosed()) {
+      incrementPiscadas(true);
+    } else if (eyeDector.getLeftEyeClosed()) {
+      incrementPiscadas(false);
+    } else {}
+  }
+
+  void configItemSize(double itemSize) {
+    this._itemSize = itemSize;
   }
 }
