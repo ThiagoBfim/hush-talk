@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hush_talk/model/CardModel.dart';
-
 
 class WordItem extends StatelessWidget {
   final CardModel card;
   final height;
   final width;
   final bool selected;
+  final bool imageGallery;
+  final bool ableDelete;
+  final Function deleteFunction;
 
   const WordItem({
     Key key,
@@ -14,6 +18,10 @@ class WordItem extends StatelessWidget {
     @required this.height,
     @required this.width,
     this.selected = false,
+    this.deleteFunction,
+    this.ableDelete = false,
+    this.imageGallery = false,
+    onDelete,
   }) : super(key: key);
 
   @override
@@ -30,7 +38,7 @@ class WordItem extends StatelessWidget {
                 top: 0,
                 bottom: 0,
                 child: Hero(
-                  tag: "background_${card.title}",
+                  tag: "background_${card.avatar}",
                   child: Card(
                     clipBehavior: Clip.antiAliasWithSaveLayer,
                     elevation: 10,
@@ -46,20 +54,7 @@ class WordItem extends StatelessWidget {
                           Colors.white,
                         ],
                       )),
-                      child: Container(
-                        alignment: Alignment.bottomLeft,
-                        margin: EdgeInsets.only(
-                          left: 20,
-                          bottom: 10,
-                        ),
-                        child: Text(
-                          card.title,
-                          style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
+                      child: createBottomContainer(),
                     ),
                   ),
                 ),
@@ -74,12 +69,8 @@ class WordItem extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.topRight,
                   child: Hero(
-                    tag: "image_${card.title}",
-                    child: Image.asset(
-                      card.avatar,
-                      height: height,
-                      width: width,
-                    ),
+                    tag: "image_${card.avatar}",
+                    child: createImage(),
                   ),
                 ),
               ),
@@ -88,4 +79,57 @@ class WordItem extends StatelessWidget {
     );
   }
 
+  Widget createBottomContainer() {
+    if (ableDelete) {
+      return Container(
+          alignment: Alignment.bottomLeft,
+          margin: EdgeInsets.only(
+            left: 20,
+            bottom: 10,
+          ),
+          child: createDeleteButton()
+      );
+    }
+    return Container(
+      alignment: Alignment.bottomLeft,
+      margin: EdgeInsets.only(
+        left: 20,
+        bottom: 10,
+      ),
+      child: Text(
+        card.title ?? '',
+        style: TextStyle(
+          fontSize: 40,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  Image createImage() {
+    return imageGallery
+        ? Image.file(File(card.avatar), height: height, width: width)
+        : Image.asset(
+            card.avatar,
+            height: height,
+            width: width,
+          );
+  }
+
+  Widget createDeleteButton() {
+    return Container(
+      margin: EdgeInsets.only(
+        right: 20,
+    ),
+      child: RaisedButton(
+          color: Colors.red,
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.delete),
+              Text("Remover"),
+            ],
+          ),
+          onPressed: () => Function.apply(deleteFunction, [card.avatar])),
+    );
+  }
 }
