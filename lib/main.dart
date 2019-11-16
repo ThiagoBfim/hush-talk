@@ -14,6 +14,7 @@ import 'package:hush_talk/util/EmptyAppBar.dart';
 import 'package:hush_talk/word_cards/CameraMLController.dart';
 import 'package:hush_talk/word_cards/card_page/ListCardsPage.dart';
 import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
+import 'package:hush_talk/word_cards/dynamic_card_page/ListDynamicCardsPage.dart';
 import 'package:hush_talk/word_cards/word_page/ListWordsPage.dart';
 import 'package:screen/screen.dart';
 
@@ -107,10 +108,14 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     ListWordsPage(menuCard.cardList)));
-          } else {
+          } else if(index == 1) {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     ListCardsPage(menuCard.cardList)));
+          } else {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ListDynamicCardsPage()));
           }
         });
       });

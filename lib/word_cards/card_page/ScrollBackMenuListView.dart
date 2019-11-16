@@ -14,7 +14,7 @@ class ScrollBackMenuListView extends ScrollController {
   bool _scrollingToTop = false;
   double positionStoped = DEFAULT_INIT_POSITION_STOP;
 
-  final List<CardModel> cardList;
+  List<CardModel> cardList;
 
   ScrollBackMenuListView(
       {@required this.backMenu,
@@ -69,7 +69,7 @@ class ScrollBackMenuListView extends ScrollController {
     _piscadas++;
     if (_piscadas >= sizePiscadasToChangeAction) {
       if (!scroll) {
-        Function.apply(backMenu, []);
+        goBackToMenu();
         setStop(true);
       } else {
         setStop(false);
@@ -77,6 +77,10 @@ class ScrollBackMenuListView extends ScrollController {
       }
       _piscadas = 0;
     }
+  }
+
+  void goBackToMenu() {
+     Function.apply(backMenu, []);
   }
 
   moveDown(double height) {

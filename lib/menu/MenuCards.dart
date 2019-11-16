@@ -12,5 +12,10 @@ final menuCards = <MenuCardModel>[
     title: "Necessidades",
     avatar: "images/menu/necessidades.jpg",
     cardList: necessidadesCards,
+  ),
+  MenuCardModel(
+    title: "Images",
+    avatar: "images/menu/stickers.jpg",
+    cardList: null,
   )
 ];
