@@ -11,7 +11,9 @@ class ListWords extends StatelessWidget {
   final ScrollBackMenuWordsListView _controller;
   final double itemSize = 340.0;
 
-  ListWords(this._scanResults, this._camera, this._controller);
+  ListWords(this._scanResults, this._camera, this._controller){
+    this._controller.configItemSize(itemSize);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,14 +113,6 @@ class ListWords extends StatelessWidget {
   }
 
   _selectionAction(EyeDector eyeDector) {
-    if (eyeDector.getCompleteEyesClosed()) {
-      if (!_controller.getStop()) {
-        _controller.updateWord(itemSize);
-      }
-    } else if (eyeDector.getRightEyeClosed()) {
-      _controller.incrementPiscadas(true);
-    } else if (eyeDector.getLeftEyeClosed()) {
-      _controller.incrementPiscadas(false);
-    } else {}
+    _controller.updateAction(eyeDector);
   }
 }

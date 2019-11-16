@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hush_talk/ml_widget/EyeDetector.dart';
 import 'package:hush_talk/model/CardModel.dart';
 
 class ScrollBackMenuListView extends ScrollController {
@@ -132,5 +133,17 @@ class ScrollBackMenuListView extends ScrollController {
 
   setPiscadas(int piscada) {
     this._piscadas = piscada;
+  }
+
+  void updateAction(EyeDector eyeDector) {
+    if (eyeDector.getCompleteEyesClosed()) {
+      if (!getStop()) {
+        stopAndScrollBack();
+      }
+    } else if (eyeDector.getRightEyeClosed()) {
+      incrementPiscadas(true);
+    } else if (eyeDector.getLeftEyeClosed()) {
+      incrementPiscadas(false);
+    } else {}
   }
 }
