@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hush_talk/ml_widget/EyeDetector.dart';
 import 'package:hush_talk/model/WordCardModel.dart';
 import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
 import 'package:hush_talk/word_cards/cards/WordsCards.dart';
@@ -16,7 +15,8 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
             backMenu: backMenu,
             cardList: getWordsCards,
             durationScrollMilliseconds: 4500,
-            sizePiscadasToChangeAction: 4);
+            qtdPiscadasEsquerdasToChangeAction: 7,
+            qtdPiscadasDireitasToChangeAction: 3);
 
   void scrollBack() {
     if (downScroll) {
@@ -38,18 +38,10 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
     }
   }
 
-  incrementPiscadas(bool scroll) {
-    setPiscadas(getPiscadas + 1);
-    if (!scroll && getPiscadas >= sizePiscadasToChangeAction * 3) {
-      Function.apply(backMenu, []);
-      setStop(true);
-      setPiscadas(0);
-    } else if (scroll && getPiscadas >= sizePiscadasToChangeAction) {
-      downScroll = !downScroll;
-      setStop(false);
-      this.scrollAtive = scroll;
-      setPiscadas(0);
-    }
+  @override
+  void olhoDireitoAction() {
+    super.olhoDireitoAction();
+    downScroll = !downScroll;
   }
 
   updateWord(double itemSize) {
@@ -88,16 +80,9 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
   }
 
   @override
-  void updateAction(EyeDector eyeDector) {
-    if (eyeDector.getCompleteEyesClosed()) {
-      if (!getStop()) {
-        updateWord(_itemSize);
-      }
-    } else if (eyeDector.getRightEyeClosed()) {
-      incrementPiscadas(true);
-    } else if (eyeDector.getLeftEyeClosed()) {
-      incrementPiscadas(false);
-    } else {}
+  void closeTwoEyesAction() {
+    updateWord(_itemSize);
+    resetPiscadas();
   }
 
   void configItemSize(double itemSize) {
