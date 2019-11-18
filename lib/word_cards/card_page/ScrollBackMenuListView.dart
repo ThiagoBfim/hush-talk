@@ -7,10 +7,14 @@ class ScrollBackMenuListView extends ScrollController {
   static const double DEFAULT_INIT_POSITION_STOP =
       _PIXELS_BACK_WHEN_STOP * -1 + -1.0;
   final int durationScrollMilliseconds;
-  final int sizePiscadasToChangeAction;
+  final int qtdPiscadasEsquerdasToChangeAction;
+  final int qtdPiscadasDireitasToChangeAction;
+  final int qtdPiscadasDoisOlhosToChangeAction = 2;
   final VoidCallback backMenu;
   bool _stop = false;
-  int _piscadas = 0;
+  int _piscadasEsquerdas = 0;
+  int _piscadasDireitas = 0;
+  int _piscadasDoisOlhos = 0;
   bool scrollAtive = true;
   bool _scrollingToTop = false;
   double positionStoped = DEFAULT_INIT_POSITION_STOP;
@@ -21,8 +25,12 @@ class ScrollBackMenuListView extends ScrollController {
       {@required this.backMenu,
       @required this.cardList,
       int durationScrollMilliseconds = 4500,
-      int sizePiscadasToChangeAction = 6})
-      : this.sizePiscadasToChangeAction = sizePiscadasToChangeAction,
+      int qtdPiscadasDireitasToChangeAction = 4,
+      int qtdPiscadasEsquerdasToChangeAction = 5})
+      : this.qtdPiscadasEsquerdasToChangeAction =
+            qtdPiscadasEsquerdasToChangeAction,
+        this.qtdPiscadasDireitasToChangeAction =
+            qtdPiscadasDireitasToChangeAction,
         this.durationScrollMilliseconds = durationScrollMilliseconds;
 
   _scrollToTop() {
@@ -41,7 +49,7 @@ class ScrollBackMenuListView extends ScrollController {
     if (scrollAtive) {
       //TODO exibir o som do item selecioando de acordo com os pixels -> this.position.pixels;
       scrollBack();
-      setPiscadas(0);
+      resetPiscadas();
       forceSelectedJustElement(positionStoped);
     }
   }
@@ -66,22 +74,35 @@ class ScrollBackMenuListView extends ScrollController {
     this._stop = stop;
   }
 
-  incrementPiscadas(bool scroll) {
-    _piscadas++;
-    if (_piscadas >= sizePiscadasToChangeAction) {
-      if (!scroll) {
-        goBackToMenu();
-        setStop(true);
-      } else {
-        setStop(false);
-        this.scrollAtive = scroll;
-      }
-      _piscadas = 0;
+  doAction() {
+    if (_piscadasDireitas >= qtdPiscadasDireitasToChangeAction) {
+      olhoDireitoAction();
+      print("Olho direito action");
+    }
+    if (_piscadasEsquerdas >= qtdPiscadasEsquerdasToChangeAction) {
+      olhoEsquerdoAction();
+      print("Olho esquerdo action");
+    }
+    if (_piscadasDoisOlhos >= qtdPiscadasDoisOlhosToChangeAction) {
+      closeTwoEyesAction();
+      print("Dois olhos action");
     }
   }
 
+  void olhoDireitoAction() {
+    setStop(false);
+    this.scrollAtive = true;
+    resetPiscadas();
+  }
+
+  void olhoEsquerdoAction() {
+    goBackToMenu();
+    setStop(true);
+    resetPiscadas();
+  }
+
   void goBackToMenu() {
-     Function.apply(backMenu, []);
+    Function.apply(backMenu, []);
   }
 
   moveDown(double height) {
@@ -97,7 +118,7 @@ class ScrollBackMenuListView extends ScrollController {
   }
 
   void scrollingToTop() {
-     if(!_scrollingToTop) {
+    if (!_scrollingToTop) {
       new Future.delayed(const Duration(seconds: 1)).then((v) {
         _scrollToTop();
       });
@@ -129,21 +150,27 @@ class ScrollBackMenuListView extends ScrollController {
 
   int get getPixelsBackWhenStop => _PIXELS_BACK_WHEN_STOP;
 
-  int get getPiscadas => _piscadas;
-
-  setPiscadas(int piscada) {
-    this._piscadas = piscada;
+  void updateAction(EyeDector eyeDector) {
+    if (!getStop() && eyeDector.getCompleteEyesClosed()) {
+      _piscadasDoisOlhos += 1;
+      doAction();
+    } else if (eyeDector.getRightEyeClosed()) {
+      _piscadasDireitas += 1;
+      doAction();
+    } else if (eyeDector.getLeftEyeClosed()) {
+      _piscadasEsquerdas += 1;
+      doAction();
+    } else {}
   }
 
-  void updateAction(EyeDector eyeDector) {
-    if (eyeDector.getCompleteEyesClosed()) {
-      if (!getStop()) {
-        stopAndScrollBack();
-      }
-    } else if (eyeDector.getRightEyeClosed()) {
-      incrementPiscadas(true);
-    } else if (eyeDector.getLeftEyeClosed()) {
-      incrementPiscadas(false);
-    } else {}
+  void closeTwoEyesAction() {
+    stopAndScrollBack();
+    resetPiscadas();
+  }
+
+  void resetPiscadas() {
+    _piscadasEsquerdas = 0;
+    _piscadasDireitas = 0;
+    _piscadasDoisOlhos = 0;
   }
 }
