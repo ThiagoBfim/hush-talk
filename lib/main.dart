@@ -4,13 +4,13 @@
 
 import 'package:camera/camera.dart';
 
-//import 'package:firebase_admob/firebase_admob.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hush_talk/menu/MenuCards.dart';
 import 'package:hush_talk/model/MenuCardModel.dart';
 
-//import 'package:hush_talk/util/AdMobUtil.dart';
+import 'package:hush_talk/util/AdMobUtil.dart';
 import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
 import 'package:hush_talk/word_cards/CameraMLController.dart';
@@ -40,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
   CameraLensDirection _direction = CameraLensDirection.front;
   bool _pageChanged = false;
   bool _anuncioWasShown;
-//  BannerAd _bannerAd;
+  BannerAd _bannerAd;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -167,7 +167,7 @@ class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
           _camera.stop();
           _pageChanged = true;
           MenuCardModel menuCard = _controller.cardList[index];
-//          showBannerAd();
+          showBannerAd();
           if (index == 0) {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
@@ -187,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-//    configureAdds();
+    configureAdds();
     return Scaffold(
       key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
@@ -200,21 +200,21 @@ class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
     );
   }
 
-//  void configureAdds() {
-//     if(!_anuncioWasShown) {
-//      _bannerAd = configureFireBaseBannerAd();
-//      setState(() {
-//        _anuncioWasShown = !_anuncioWasShown;
-//      });
-//    }
-//  }
-//
-//  void showBannerAd() {
-//     _bannerAd.isLoaded().then((loaded) {
-//      if(loaded){
-//        _bannerAd?.dispose();
-//      }
-//    });
-//  }
+  void configureAdds() {
+     if(!_anuncioWasShown) {
+      _bannerAd = configureFireBaseBannerAd();
+      setState(() {
+        _anuncioWasShown = !_anuncioWasShown;
+      });
+    }
+  }
+
+  void showBannerAd() {
+     _bannerAd.isLoaded().then((loaded) {
+      if(loaded){
+        _bannerAd?.dispose();
+      }
+    });
+  }
 
 }
