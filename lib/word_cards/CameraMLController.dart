@@ -10,28 +10,31 @@ class CameraMLController extends CameraController {
   bool _isDetecting = false;
 
   CameraMLController(_description, this._updateStateCamera)
-      : super(_description, _resolutionPreset);
+      : super(_description, _resolutionPreset) {
+    init();
+  }
 
   init() async {
     await initialize();
-
     ImageRotation rotation = rotationIntToImageRotation(
       description.sensorOrientation,
     );
-
     startImageStream((CameraImage image) {
       if (_isDetecting) return;
-
       _isDetecting = true;
-
       detect(image, _getDetectionMethod(), rotation).then(
         (dynamic result) {
-          Function.apply(_updateStateCamera, result);
+          if (result.length > 0) {
+            Function.apply(_updateStateCamera, result);
+          } else {
+            print("Not found face!");
+          }
           _isDetecting = false;
         },
       ).catchError(
-        (_) {
+        (ex) {
           _isDetecting = false;
+          print(ex);
         },
       );
     });
@@ -57,7 +60,8 @@ class CameraMLController extends CameraController {
   HandleDetection _getDetectionMethod() {
     final FirebaseVision mlVision = FirebaseVision.instance;
     return mlVision
-        .faceDetector(FaceDetectorOptions(enableClassification: true, minFaceSize: 0.6))
+        .faceDetector(
+            FaceDetectorOptions(enableClassification: true, minFaceSize: 0.6))
         .processImage;
   }
 

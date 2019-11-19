@@ -39,7 +39,6 @@ abstract class ListAbsctractPageState extends State<ListAbsctractPage> {
   void _initializeCamera() async {
     CameraDescription description = await getCamera(_direction);
     camera = CameraMLController(description, updateStateCamera);
-    camera.init();
   }
 
   Widget _buildImage() {
