@@ -64,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _initializeCamera() async {
     CameraDescription description = await getCamera(_direction);
+    print('\n\n\naaaaa $description');
     _camera = CameraMLController(description, updateStateCamera);
     _camera.init();
   }
@@ -74,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: _camera == null
           ? const Center(
               child: Text(
-                'Initializing Camera...',
+                'Inicializando a camera...',
                 style: TextStyle(
                   color: Colors.green,
                   fontSize: 30.0,
@@ -99,11 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _camera.stop();
           _pageChanged = true;
           MenuCardModel menuCard = _controller.cardList[index];
-          _bannerAd.isLoaded().then((loaded) {
-            if(loaded){
-              _bannerAd?.dispose();
-            }
-          });
+          showBannerAd();
           if (index == 0) {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
@@ -124,12 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if(!_anuncioWasShown) {
-      _bannerAd = configureFireBaseBannerAd();
-      setState(() {
-        _anuncioWasShown = !_anuncioWasShown;
-      });
-    }
+    configureAdds();
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       primary: false,
@@ -140,4 +132,22 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  void configureAdds() {
+     if(!_anuncioWasShown) {
+      _bannerAd = configureFireBaseBannerAd();
+      setState(() {
+        _anuncioWasShown = !_anuncioWasShown;
+      });
+    }
+  }
+
+  void showBannerAd() {
+     _bannerAd.isLoaded().then((loaded) {
+      if(loaded){
+        _bannerAd?.dispose();
+      }
+    });
+  }
+
 }

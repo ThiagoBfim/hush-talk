@@ -22,7 +22,7 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 def keystorePropertiesFile = rootProject.file("key.properties")
@@ -31,6 +31,10 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdkVersion 28
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
 
     lintOptions {
         disable 'InvalidPackage'
@@ -43,12 +47,12 @@ android {
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
 
-        multiDexEnabled true
-        ndk {
-            abiFilters "armeabi-v7a", "x86", "armeabi", "mips", "lib/x86" ,"lib/x86_64", "lib/arm64-v8a"
-        }
+    packagingOptions {
+        // exclude ARMEABI native so file, ARMEABI has been removed in NDK r17.
+        exclude "lib/armeabi/**"
     }
 
     signingConfigs{
@@ -67,7 +71,7 @@ android {
         }
     }
     dependencies {
-        api 'com.google.firebase:firebase-ml-vision-face-model:19.0.0'
+        api 'com.google.firebase:firebase-ml-vision-face-model:17.0.2'
     }
 }
 
@@ -76,8 +80,10 @@ flutter {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
+
+apply plugin: 'com.google.gms.google-services'

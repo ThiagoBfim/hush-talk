@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>GADApplicationIdentifier</key>
-    <string>ca-app-pub-8991564571112984~1432764030</string>
+    <string>[ADMOB_APP_ID]</string>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>hush_talk</string>
+	<string>Hush_Talk</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
