@@ -57,14 +57,18 @@ class _ListDynamicCardsPageState extends ListAbsctractPageState {
   }
 
   void _saveImage() async {
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String appDocPath = appDocDir.path;
-    print(appDocPath);
-    appDocDir.list();
+    try {
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      String appDocPath = appDocDir.path;
+      print(appDocPath);
+      appDocDir.list();
 
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    GallerySaver.saveImage(image.path);
-    controller.goBackToMenu();
+      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      GallerySaver.saveImage(image.path);
+      controller.goBackToMenu();
+    } catch (ex) {
+      print(ex);
+    }
   }
 
   _backMenu() {
