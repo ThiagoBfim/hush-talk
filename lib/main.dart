@@ -11,6 +11,7 @@ import 'package:hush_talk/menu/MenuCards.dart';
 import 'package:hush_talk/model/MenuCardModel.dart';
 
 import 'package:hush_talk/util/AdMobUtil.dart';
+import 'package:hush_talk/util/CameraSelectUtils.dart';
 import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
 import 'package:hush_talk/word_cards/CameraMLController.dart';
@@ -37,7 +38,6 @@ class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
   dynamic _scanResults;
   CameraMLController _camera;
   ScrollBackMenuListView _controller;
-  CameraLensDirection _direction = CameraLensDirection.front;
   bool _pageChanged = false;
   bool _anuncioWasShown;
   BannerAd _bannerAd;
@@ -61,10 +61,10 @@ class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
     super.dispose();
   }
 
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // App state changed before we got the chance to initialize.
+    print('teste $_camera');
     if (_camera == null || !_camera.value.isInitialized) {
       return;
     }
@@ -72,65 +72,26 @@ class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
       _camera?.dispose();
     } else if (state == AppLifecycleState.resumed) {
       if (_camera != null) {
-        onNewCameraSelected(_camera.description);
+        print(_camera);
+        _initCamera();
       }
     }
   }
-
-
-  void onNewCameraSelected(CameraDescription cameraDescription) async {
-    if (_camera != null) {
-      await _camera.dispose();
-    }
-    _initializeCamera();
-
-    // If the controller is updated then update the UI.
-    _camera.addListener(() {
-      if (mounted) setState(() {});
-      if (_camera.value.hasError) {
-        showInSnackBar('Camera error ${_camera.value.errorDescription}');
-      }
-    });
-
-    try {
-      await _camera.initialize();
-    } on CameraException catch (e) {
-      _showCameraException(e);
-    }
-
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  void _showCameraException(CameraException e) {
-    logError(e.code, e.description);
-    showInSnackBar('Error: ${e.code}\n${e.description}');
-  }
-
-  void showInSnackBar(String message) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
-  }
-
-
-  void logError(String code, String message) =>
-      print('Error: $code\nError Message: $message');
 
   _initControllers() {
     _controller =
         ScrollBackMenuListView(backMenu: () => {}, cardList: menuCards);
-    _initializeCamera();
+    _initCamera();
+  }
+
+  Future _initCamera() async {
+    _camera = await onNewCameraSelected(_camera, _scaffoldKey, updateStateCamera);
   }
 
   updateStateCamera(result) {
     setState(() {
       _scanResults = result;
     });
-  }
-
-  void _initializeCamera() async {
-    CameraDescription description = await getCamera(_direction);
-    _camera = CameraMLController(description, updateStateCamera);
   }
 
   Widget _buildImage() {

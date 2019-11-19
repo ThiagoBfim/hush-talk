@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:hush_talk/util/CameraSelectUtils.dart';
 import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
 import 'package:hush_talk/word_cards/CameraMLController.dart';
@@ -13,19 +14,47 @@ abstract class ListAbsctractPage extends StatefulWidget {
   ListAbsctractPageState createState();
 }
 
-abstract class ListAbsctractPageState extends State<ListAbsctractPage> {
+abstract class ListAbsctractPageState extends State<ListAbsctractPage>  with WidgetsBindingObserver {
   dynamic scanResults;
   CameraMLController camera;
   ScrollBackMenuListView controller;
-  CameraLensDirection _direction = CameraLensDirection.front;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
     controller = initScrollController();
     Screen.keepOn(true);
-    _initializeCamera();
+    _initCamera();
+    WidgetsBinding.instance.addObserver(this);
   }
+
+  Future _initCamera() async {
+    camera = await onNewCameraSelected(camera, _scaffoldKey, updateStateCamera);
+  }
+
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // App state changed before we got the chance to initialize.
+    if (camera == null || !camera.value.isInitialized) {
+      return;
+    }
+    if (state == AppLifecycleState.inactive) {
+      camera?.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      if (camera != null) {
+        _initCamera();
+      }
+    }
+  }
+
 
   @protected
   ScrollBackMenuListView initScrollController();
@@ -34,11 +63,6 @@ abstract class ListAbsctractPageState extends State<ListAbsctractPage> {
     setState(() {
       scanResults = result;
     });
-  }
-
-  void _initializeCamera() async {
-    CameraDescription description = await getCamera(_direction);
-    camera = CameraMLController(description, updateStateCamera);
   }
 
   Widget _buildImage() {
@@ -69,6 +93,7 @@ abstract class ListAbsctractPageState extends State<ListAbsctractPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       primary: false,
       appBar: EmptyAppBar(),
       body: _buildImage(),
