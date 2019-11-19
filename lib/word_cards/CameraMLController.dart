@@ -10,9 +10,7 @@ class CameraMLController extends CameraController {
   bool _isDetecting = false;
 
   CameraMLController(_description, this._updateStateCamera)
-      : super(_description, _resolutionPreset) {
-    init();
-  }
+      : super(_description, _resolutionPreset);
 
   init() async {
     await initialize();
