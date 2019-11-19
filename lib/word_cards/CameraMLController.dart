@@ -57,7 +57,7 @@ class CameraMLController extends CameraController {
   HandleDetection _getDetectionMethod() {
     final FirebaseVision mlVision = FirebaseVision.instance;
     return mlVision
-        .faceDetector(FaceDetectorOptions(enableClassification: true))
+        .faceDetector(FaceDetectorOptions(enableClassification: true, minFaceSize: 0.6))
         .processImage;
   }
 
