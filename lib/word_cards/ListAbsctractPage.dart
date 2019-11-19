@@ -1,7 +1,5 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/util/CameraSelectUtils.dart';
-import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
 import 'package:hush_talk/word_cards/CameraMLController.dart';
 import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
@@ -18,7 +16,7 @@ abstract class ListAbsctractPageState extends State<ListAbsctractPage>  with Wid
   dynamic scanResults;
   CameraMLController camera;
   ScrollBackMenuListView controller;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -30,7 +28,7 @@ abstract class ListAbsctractPageState extends State<ListAbsctractPage>  with Wid
   }
 
   Future _initCamera() async {
-    camera = await onNewCameraSelected(camera, _scaffoldKey, updateStateCamera);
+    camera = await onNewCameraSelected(camera, scaffoldKey, updateStateCamera);
   }
 
 
@@ -93,7 +91,7 @@ abstract class ListAbsctractPageState extends State<ListAbsctractPage>  with Wid
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      key: scaffoldKey,
       primary: false,
       appBar: EmptyAppBar(),
       body: _buildImage(),

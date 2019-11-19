@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_file_manager/flutter_file_manager.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:hush_talk/model/CardModel.dart';
+import 'package:hush_talk/util/CameraSelectUtils.dart';
 import 'package:hush_talk/word_cards/ListAbsctractPage.dart';
 import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
 import 'package:image_picker/image_picker.dart';
@@ -57,6 +58,7 @@ class _ListDynamicCardsPageState extends ListAbsctractPageState {
   }
 
   void _saveImage() async {
+    camera.stop();
     try {
       Directory appDocDir = await getApplicationDocumentsDirectory();
       String appDocPath = appDocDir.path;
@@ -69,6 +71,7 @@ class _ListDynamicCardsPageState extends ListAbsctractPageState {
     } catch (ex) {
       print(ex);
     }
+    initializeCamera(camera, scaffoldKey, updateStateCamera);
   }
 
   _backMenu() {

@@ -2,17 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:camera/camera.dart';
-
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hush_talk/menu/MenuCards.dart';
 import 'package:hush_talk/model/MenuCardModel.dart';
-
 import 'package:hush_talk/util/AdMobUtil.dart';
 import 'package:hush_talk/util/CameraSelectUtils.dart';
-import 'package:hush_talk/util/CameraUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
 import 'package:hush_talk/word_cards/CameraMLController.dart';
 import 'package:hush_talk/word_cards/card_page/ListCardsPage.dart';
