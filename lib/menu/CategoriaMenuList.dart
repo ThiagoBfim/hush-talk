@@ -34,7 +34,7 @@ class CategoriaMenuList extends StatelessWidget {
                   Column(
                     children: <Widget>[
                       Text(
-                        "Feche os dois olhos por 1 segundo para selecionar.",
+                        "Feche os dois olhos para selecionar.",
                         style: TextStyle(
                           fontSize: 19,
                           fontWeight: FontWeight.w900,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hush_talk/ml_widget/EyeDetector.dart';
 import 'package:hush_talk/model/CardModel.dart';
@@ -5,7 +7,7 @@ import 'package:hush_talk/model/CardModel.dart';
 class ScrollBackMenuListView extends ScrollController {
   static const int _PIXELS_BACK_WHEN_STOP = 30;
   static const double DEFAULT_INIT_POSITION_STOP =
-      _PIXELS_BACK_WHEN_STOP * -1 + -1.0;
+      _PIXELS_BACK_WHEN_STOP * -2.0;
   final int durationScrollMilliseconds;
   final int qtdPiscadasEsquerdasToChangeAction;
   final int qtdPiscadasDireitasToChangeAction;

@@ -21,7 +21,11 @@ Future<CameraMLController> initializeCamera(CameraMLController camera,
   camera.addListener(() {
     if (camera.value.hasError) {
       showInSnackBar(
-          scaffoldKey, 'Ocorreu um erro ao inicializar a camera. O erro foi contornado.');
+          scaffoldKey, 'Ocorreu um erro ao inicializar a camera.');
+      if(camera.notFoundFace){
+        print('tentando recuperar');
+        initializeCamera(camera, scaffoldKey, updateStateCamera);
+      }
     }
   });
 

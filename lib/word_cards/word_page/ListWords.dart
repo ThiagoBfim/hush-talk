@@ -36,7 +36,7 @@ class ListWords extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 6.0),
                         child: Text(
-                          "Feche os dois olhos por 1 segundo para selecionar.",
+                          "Feche os dois olhos para selecionar.",
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w900,
@@ -44,14 +44,14 @@ class ListWords extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Feche o esquerdo durante 4 segundos para voltar para o menu.",
+                        "Feche o esquerdo para voltar para o menu.",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       Text(
-                        "Feche o direito durante 2 segundos para inverter a ordem de exibição dos elementos.",
+                        "Feche o direito para inverter a ordem de exibição dos elementos.",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
