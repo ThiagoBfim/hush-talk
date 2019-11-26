@@ -22,44 +22,36 @@ class ListCards extends StatelessWidget {
     return Column(children: <Widget>[
       Container(
         color: Colors.white,
-        child: Center(
-          child: Align(
-            alignment: FractionalOffset.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Wrap(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 6.0),
-                        child: Text(
-                          "Feche os dois olhos para selecionar.",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        "Feche o esquerdo para voltar para o menu.",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Feche o direito para exibir os elementos para baixo.",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 6.0),
+                child: Text(
+                  "Feche os dois olhos para selecionar.",
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w900,
                   ),
-                ],
+                ),
               ),
-            ),
+              Text(
+                "Feche o esquerdo para voltar para o menu.",
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(
+                "Feche o direito para exibir os elementos para baixo.",
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
         ),
       ),

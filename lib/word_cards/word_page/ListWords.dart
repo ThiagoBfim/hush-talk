@@ -24,44 +24,40 @@ class ListWords extends StatelessWidget {
     return Column(children: <Widget>[
       Container(
         color: Colors.white,
-        child: Center(
-          child: Align(
-            alignment: FractionalOffset.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Wrap(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Wrap(
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 6.0),
-                        child: Text(
-                          "Feche os dois olhos para selecionar.",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6.0),
+                    child: Text(
+                      "Feche os dois olhos para selecionar.",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
                       ),
-                      Text(
-                        "Feche o esquerdo para voltar para o menu.",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        "Feche o direito para inverter a ordem de exibição dos elementos.",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
+                    ),
+                  ),
+                  Text(
+                    "Feche o esquerdo para voltar para o menu.",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    "Feche o direito para inverter a ordem de exibição dos elementos.",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
         ),
       ),
