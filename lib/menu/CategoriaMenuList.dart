@@ -24,27 +24,26 @@ class CategoriaMenuList extends StatelessWidget {
       Container(
         height: 105,
         color: Colors.white,
-        child: Center(
-          child: Align(
-            alignment: FractionalOffset.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Wrap(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Wrap(
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "Feche os dois olhos para selecionar.",
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w900,
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Text(
+                      "Feche os dois olhos para selecionar!",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
         ),
       ),
