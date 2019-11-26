@@ -1,4 +1,4 @@
-import 'package:camera/camera.dart';
+import 'package:camera_fix_exception/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/util/CameraUtils.dart';

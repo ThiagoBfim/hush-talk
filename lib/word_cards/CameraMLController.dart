@@ -1,4 +1,4 @@
-import 'package:camera/camera.dart';
+import 'package:camera_fix_exception/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class CameraMLController extends CameraController {
   init() async {
     await initialize();
     ImageRotation rotation = rotationIntToImageRotation(
-      description.sensorOrientation,
+      /*description.sensorOrientation,*/0
     );
     startImageStream((CameraImage image) {
       if (_isDetecting) return;
