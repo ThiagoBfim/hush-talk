@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hush_talk/model/WordCardModel.dart';
 import 'package:hush_talk/word_cards/card_page/ScrollBackMenuListView.dart';
@@ -16,7 +18,7 @@ class ScrollBackMenuWordsListView extends ScrollBackMenuListView {
             cardList: getWordsCards,
             durationScrollMilliseconds: 4500,
             qtdPiscadasEsquerdasToChangeAction: 7,
-            qtdPiscadasDireitasToChangeAction: 3);
+            qtdPiscadasDireitasToChangeAction: 4);
 
   void scrollBack() {
     if (downScroll) {

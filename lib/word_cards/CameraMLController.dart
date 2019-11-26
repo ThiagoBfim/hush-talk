@@ -8,6 +8,7 @@ class CameraMLController extends CameraController {
   static final ResolutionPreset _resolutionPreset = _getResolution();
   final Function _updateStateCamera;
   bool _isDetecting = false;
+  bool _notFoundFace = false;
 
   CameraMLController(_description, this._updateStateCamera)
       : super(_description, _resolutionPreset);
@@ -24,8 +25,9 @@ class CameraMLController extends CameraController {
         (dynamic result) {
           if (result.length > 0) {
             Function.apply(_updateStateCamera, result);
+            _notFoundFace = false;
           } else {
-            print("Not found face!");
+            _notFoundFace = true;
           }
           _isDetecting = false;
         },
@@ -81,4 +83,8 @@ class CameraMLController extends CameraController {
       print('Ocorreceu um erro ao tentar parar o a camera.');
     }
   }
+
+  bool get notFoundFace => _notFoundFace;
+
+
 }

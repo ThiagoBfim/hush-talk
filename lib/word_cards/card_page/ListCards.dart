@@ -34,7 +34,7 @@ class ListCards extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 6.0),
                         child: Text(
-                          "Feche os dois olhos por 1 segundo para selecionar.",
+                          "Feche os dois olhos para selecionar.",
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w900,
@@ -42,14 +42,14 @@ class ListCards extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Feche o esquerdo durante 2 segundos para voltar para o menu.",
+                        "Feche o esquerdo para voltar para o menu.",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       Text(
-                        "Feche o direito durante 2 segundos para exibir os elementos para baixo.",
+                        "Feche o direito para exibir os elementos para baixo.",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -66,10 +66,13 @@ class ListCards extends StatelessWidget {
       Flexible(
         child: ListView.builder(
           controller: _controller,
-          itemCount: _controller.cardList.length,
+          itemCount: _controller.cardList.length + 1,
           scrollDirection: Axis.vertical,
           itemExtent: itemSize,
           itemBuilder: (context, index) {
+            if(index == _controller.cardList.length){
+              return new Container();
+            }
             final cardModel = _controller.cardList[index];
             return WordItem(
                 card: cardModel,

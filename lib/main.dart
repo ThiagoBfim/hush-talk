@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
+    SystemChrome.setEnabledSystemUIOverlays([]);
     Screen.keepOn(true);
     _initControllers();
     WidgetsBinding.instance.addObserver(this);
