@@ -1,8 +1,8 @@
 # HUSH_TALK
 
-###[HushTalk on Google Play](https://play.google.com/store/apps/details?id=com.bomfim.hush_talk)
+### [HushTalk on Google Play](https://play.google.com/store/apps/details?id=com.bomfim.hush_talk)
 
-###Descrição
+### Descrição
 An application for people who have lateral sclerosis, or any problem to communicate, being possible to use only eyes.
 <br>
 Um aplicativo para pessoas que tem esclerose lateral, ou qualquer problema, que possibilite o uso apenas dos olhos.
