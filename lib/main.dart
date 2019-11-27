@@ -1,7 +1,4 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
+import 'package:camera/camera.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,7 +27,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState(this.anuncioWasShown);
 }
 
-class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
+class _MyHomePageState extends State<MyHomePage> {
   dynamic _scanResults;
   CameraMLController _camera;
   ScrollBackMenuListView _controller;
@@ -48,30 +45,12 @@ class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
     SystemChrome.setEnabledSystemUIOverlays([]);
     Screen.keepOn(true);
     _initControllers();
-    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    _camera?.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    // App state changed before we got the chance to initialize.
-    print('teste $_camera');
-    if (_camera == null || !_camera.value.isInitialized) {
-      return;
-    }
-    if (state == AppLifecycleState.inactive) {
-      _camera?.dispose();
-    } else if (state == AppLifecycleState.resumed) {
-      if (_camera != null) {
-        print(_camera);
-        _initCamera();
-      }
-    }
   }
 
   _initControllers() {
@@ -82,7 +61,28 @@ class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
 
   Future _initCamera() async {
     _camera = await onNewCameraSelected(_camera, _scaffoldKey, updateStateCamera);
+    try {
+      await _camera.initialize().then((_) {
+        if (!mounted) {
+          return;
+        }
+        setState(() {});
+      });
+      Future.delayed(new Duration(milliseconds: 600),() {
+        _camera.init();
+      });
+    } catch (e){
+      _showCameraException(e);
+    }
+
   }
+
+  void _showCameraException(
+      CameraException e) {
+    logError(e.code, e.description);
+    showInSnackBar(_scaffoldKey, 'Error: ${e.code}\n${e.description}');
+  }
+
 
   updateStateCamera(result) {
     setState(() {
@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
   Widget _buildImage() {
     return Container(
         constraints: const BoxConstraints.expand(),
-        child: _camera == null
+        child:  _camera == null || !_camera.value.isInitialized == null
             ? const Center(
                 child: Text(
                   'Inicializando a camera...',
@@ -111,6 +111,7 @@ class _MyHomePageState extends State<MyHomePage>  with WidgetsBindingObserver {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
+//        CameraPreview(_camera),
         CategoriaMenuList(_scanResults, _camera, _controller, _changePage),
       ],
     );

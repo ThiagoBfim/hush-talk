@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:camera_fix_exception/camera.dart';
+import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/foundation.dart';
 
@@ -11,8 +11,8 @@ typedef HandleDetection = Future<dynamic> Function(FirebaseVisionImage image);
 Future<CameraDescription> getCamera(CameraLensDirection dir) async {
   return await availableCameras().then(
     (List<CameraDescription> cameras) => cameras.firstWhere(
-          (CameraDescription camera) => camera.lensDirection == dir,
-        ),
+      (CameraDescription camera) => camera.lensDirection == dir,
+    ),
   );
 }
 
@@ -48,8 +48,7 @@ Future<dynamic> detect(
   ImageRotation rotation,
 ) async {
   return handleDetection(
-    FirebaseVisionImage.fromBytes(
-      concatenatePlanes(image.planes),
+    FirebaseVisionImage.fromBytes(concatenatePlanes(image.planes),
       buildMetaData(image, rotation),
     ),
   );

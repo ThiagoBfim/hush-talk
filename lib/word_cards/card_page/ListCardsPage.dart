@@ -17,7 +17,7 @@ class ListCardsPage extends ListAbsctractPage {
   }
 }
 
-class _ListCardsPageState extends ListAbsctractPageState {
+class _ListCardsPageState extends ListAbstractPageState {
   final List<CardModel> cardList;
   bool _pageChanged = false;
 

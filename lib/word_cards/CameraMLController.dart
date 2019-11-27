@@ -1,4 +1,4 @@
-import 'package:camera_fix_exception/camera.dart';
+import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +13,13 @@ class CameraMLController extends CameraController {
   CameraMLController(_description, this._updateStateCamera)
       : super(_description, _resolutionPreset);
 
-  init() async {
-    await initialize();
+  init() {
+    initializeImageStream();
+  }
+
+  void initializeImageStream() {
     ImageRotation rotation = rotationIntToImageRotation(
-      /*description.sensorOrientation,*/0
+    description.sensorOrientation,
     );
     startImageStream((CameraImage image) {
       if (_isDetecting) return;
@@ -61,7 +64,7 @@ class CameraMLController extends CameraController {
     final FirebaseVision mlVision = FirebaseVision.instance;
     return mlVision
         .faceDetector(
-            FaceDetectorOptions(enableClassification: true, minFaceSize: 0.6))
+            FaceDetectorOptions(enableClassification: true))
         .processImage;
   }
 
@@ -72,6 +75,7 @@ class CameraMLController extends CameraController {
   }
 
   void stop() {
+    print('stopping');
     try {
       if (value.isStreamingImages) {
         stopImageStream();

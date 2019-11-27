@@ -29,13 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
-  camera_fix_exception:
+  camera:
     dependency: "direct main"
     description:
-      name: camera_fix_exception
+      name: camera
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0+5"
+    version: "0.5.1"
   charcode:
     dependency: transitive
     description:
