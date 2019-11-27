@@ -4,16 +4,18 @@ An application for people who have lateral sclerosis, or any problem to communic
 <br>
 Um aplicativo para pessoas que tem esclerose lateral, ou qualquer problema, que possibilite o uso apenas dos olhos.
 
-Para um uso melhor do aplicativo, é necessário seguir os seguintes passos:
+### Para um uso melhor do aplicativo, é necessário seguir os seguintes passos:
 - Ele esteja a 30 centimentros do rosto;
 - Ele esteja posicionado em média 30º para baixo da testa;
 - Toda ação seja realizada fechando os olhos, e não apenas piscando.
-- Toda ação deverá ser realizada apenas com os olhos, qualquer toque no celular pode influenciar negativamente.
+- As ações deveram ser realizadas com os olhos, qualquer toque no celular pode influenciar negativamente.
 
-Notas para desenvolvedores:
-- Esse projeto foi feito utilizando Flutter
-- Machine learning para reconhecimento Facil. 
+### Notas para desenvolvedores:
+- Projeto feito utilizando Flutter.
+- Projeto feito utilizando Machine learning para reconhecimento facial. 
 
 <a href='https://play.google.com/store/apps/details?id=com.bomfim.hush_talk'>HushTalk on Google Play</a>
 
-
+Credits:
+[MLKIT DEMO - Maurice Parrish](https://github.com/bparrishMines/mlkit_demo)
+[FLUTTER TEAM](https://flutter.dev/)
