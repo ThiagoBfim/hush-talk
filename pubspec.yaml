@@ -21,7 +21,6 @@ dependencies:
     sdk: flutter
 
   screen: ^0.0.5
-#  camera: ^0.5.7
   firebase_ml_vision: 0.9.3+3
   camera: 0.5.1
   firebase_admob: 0.9.0+9
