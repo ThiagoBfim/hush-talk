@@ -15,7 +15,7 @@ class ListWordsPage extends ListAbsctractPage {
   _ListWordsPageState createState() => _ListWordsPageState(cardList);
 }
 
-class _ListWordsPageState extends ListAbsctractPageState {
+class _ListWordsPageState extends ListAbstractPageState {
   bool _pageChanged = false;
   final List<CardModel> cardList;
 

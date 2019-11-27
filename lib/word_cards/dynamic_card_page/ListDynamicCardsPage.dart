@@ -22,7 +22,7 @@ class ListDynamicCardsPage extends ListAbsctractPage {
   }
 }
 
-class _ListDynamicCardsPageState extends ListAbsctractPageState {
+class _ListDynamicCardsPageState extends ListAbstractPageState {
   bool _pageChanged = false;
 
   _ListDynamicCardsPageState();
@@ -71,7 +71,6 @@ class _ListDynamicCardsPageState extends ListAbsctractPageState {
     } catch (ex) {
       print(ex);
     }
-    initializeCamera(camera, scaffoldKey, updateStateCamera);
   }
 
   _backMenu() {

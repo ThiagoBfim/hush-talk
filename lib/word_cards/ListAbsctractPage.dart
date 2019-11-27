@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hush_talk/util/CameraSelectUtils.dart';
 import 'package:hush_talk/util/EmptyAppBar.dart';
@@ -9,10 +10,10 @@ abstract class ListAbsctractPage extends StatefulWidget {
   ListAbsctractPage();
 
   @override
-  ListAbsctractPageState createState();
+  ListAbstractPageState createState();
 }
 
-abstract class ListAbsctractPageState extends State<ListAbsctractPage>  with WidgetsBindingObserver {
+abstract class ListAbstractPageState extends State<ListAbsctractPage>  with WidgetsBindingObserver {
   dynamic scanResults;
   CameraMLController camera;
   ScrollBackMenuListView controller;
@@ -29,8 +30,26 @@ abstract class ListAbsctractPageState extends State<ListAbsctractPage>  with Wid
 
   Future _initCamera() async {
     camera = await onNewCameraSelected(camera, scaffoldKey, updateStateCamera);
+    try {
+      await camera.initialize().then((_) {
+        if (!mounted) {
+          return;
+        }
+        setState(() {});
+      });
+      Future.delayed(new Duration(milliseconds: 600),() {
+        camera.init();
+      });
+    } catch (e){
+      _showCameraException(e);
+    }
   }
 
+  void _showCameraException(
+      CameraException e) {
+    logError(e.code, e.description);
+    showInSnackBar(scaffoldKey, 'Error: ${e.code}\n${e.description}');
+  }
 
   @override
   void dispose() {
