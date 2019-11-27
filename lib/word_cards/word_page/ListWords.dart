@@ -73,32 +73,35 @@ class ListWords extends StatelessWidget {
           },
         ),
       ),
-      Column(children: <Widget>[
-        Align(
-          alignment: FractionalOffset.topLeft,
-          child: Text(
-            "Resultado:",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w900,
+      Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Column(children: <Widget>[
+          Align(
+            alignment: FractionalOffset.topLeft,
+            child: Text(
+              "Resultado:",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+              ),
             ),
           ),
-        ),
-        Container(
-          width: width,
-          margin: const EdgeInsets.all(30.0),
-          padding: EdgeInsets.all(10),
-          decoration: myBoxDecoration(),
-          child: Text(
-            "${_controller.getWord().toLowerCase()}",
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
+          Container(
+            width: width,
+            margin: const EdgeInsets.all(30.0),
+            padding: EdgeInsets.all(10),
+            decoration: myBoxDecoration(),
+            child: Text(
+              "${_controller.getWord().toLowerCase()}",
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 24,
+                fontWeight: FontWeight.w900,
+              ),
             ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     ]);
   }
 
